@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://lwchubate87p"]
+
+[ext_resource type="FontFile" uid="uid://cdgtlu4thtiug" path="res://UI/PressStart2P.ttf" id="1_iem68"]
+[ext_resource type="Script" path="res://hit-hurtboxes/pop.gd" id="1_rpupf"]
+
+[node name="POP" type="Label"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.733333, 0.152941, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.756863, 0.34902, 0, 1)
+theme_override_fonts/font = ExtResource("1_iem68")
+script = ExtResource("1_rpupf")

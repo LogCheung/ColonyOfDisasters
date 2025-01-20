@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bq2qlksv4r2ve"]
+
+[ext_resource type="PackedScene" uid="uid://cikctkripo73r" path="res://TileSet/tile_map.tscn" id="1_d80rd"]
+[ext_resource type="Script" path="res://world/world.gd" id="1_rf4s4"]
+[ext_resource type="PackedScene" uid="uid://bvyr1woplcwbb" path="res://UI/main_ui.tscn" id="2_ggfrl"]
+[ext_resource type="PackedScene" uid="uid://bf2cwhcpu8asq" path="res://npcs/npc.tscn" id="2_pc43h"]
+
+[node name="World" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_rf4s4")
+
+[node name="TileMap" parent="." instance=ExtResource("1_d80rd")]
+unique_name_in_owner = true
+use_parent_material = false
+
+[node name="MainUI" parent="." instance=ExtResource("2_ggfrl")]
+unique_name_in_owner = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(305, 183)
+zoom = Vector2(2, 2)
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="npc" parent="NPCs" instance=ExtResource("2_pc43h")]
+position = Vector2(412, 182)
+
+[node name="npc2" parent="NPCs" instance=ExtResource("2_pc43h")]
+position = Vector2(566, 176)
+
+[node name="WoodTimer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[connection signal="timeout" from="WoodTimer" to="." method="_on_timer_timeout"]

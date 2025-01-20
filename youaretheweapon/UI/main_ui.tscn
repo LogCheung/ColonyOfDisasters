@@ -1,0 +1,178 @@
+[gd_scene load_steps=13 format=3 uid="uid://bvyr1woplcwbb"]
+
+[ext_resource type="Script" path="res://UI/main_ui.gd" id="1_nb8ua"]
+[ext_resource type="Texture2D" uid="uid://bi7t22eafglna" path="res://UI/Sprites/HotkeyBox_34x34.png" id="2_xlgpe"]
+[ext_resource type="FontFile" uid="uid://cdgtlu4thtiug" path="res://UI/PressStart2P.ttf" id="4_2oogm"]
+[ext_resource type="Texture2D" uid="uid://b7aeg72sbveul" path="res://UI/abilityIcons/Rain.png" id="4_jcktn"]
+[ext_resource type="Texture2D" uid="uid://cf1udjbgp35n1" path="res://UI/abilityIcons/Wind.png" id="5_d1mok"]
+[ext_resource type="Texture2D" uid="uid://bfjs6wfiutnar" path="res://UI/abilityIcons/quake.png" id="6_frndh"]
+[ext_resource type="Texture2D" uid="uid://dwopqcne3ai2t" path="res://UI/abilityIcons/holyland.png" id="7_5kjy4"]
+[ext_resource type="Texture2D" uid="uid://dwrrft55ujooe" path="res://UI/abilityIcons/volcano.png" id="7_jtgiw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71li2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_agxm3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4a1wm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ycbo"]
+
+[node name="MainUI" type="CanvasLayer"]
+script = ExtResource("1_nb8ua")
+
+[node name="ActionUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -648.0
+offset_right = 1152.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ActionUI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 127.0
+offset_top = -97.0
+offset_right = 489.0
+offset_bottom = -57.0
+grow_vertical = 0
+theme_override_constants/separation = 75
+
+[node name="RainAction" type="Control" parent="ActionUI/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="RainBox" type="Sprite2D" parent="ActionUI/HBoxContainer/RainAction"]
+position = Vector2(1, 49)
+scale = Vector2(2, 2)
+texture = ExtResource("2_xlgpe")
+
+[node name="RainIcon" type="Button" parent="ActionUI/HBoxContainer/RainAction"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -23.0
+offset_top = 25.0
+offset_right = 23.0
+offset_bottom = 71.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_71li2")
+icon = ExtResource("4_jcktn")
+flat = true
+expand_icon = true
+
+[node name="WindAction" type="Control" parent="ActionUI/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="WindBox" type="Sprite2D" parent="ActionUI/HBoxContainer/WindAction"]
+position = Vector2(1, 49)
+scale = Vector2(2, 2)
+texture = ExtResource("2_xlgpe")
+
+[node name="WindIcon" type="Button" parent="ActionUI/HBoxContainer/WindAction"]
+layout_mode = 0
+offset_left = -23.0
+offset_top = 25.0
+offset_right = 23.0
+offset_bottom = 71.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_agxm3")
+icon = ExtResource("5_d1mok")
+flat = true
+expand_icon = true
+
+[node name="QuakeAction" type="Control" parent="ActionUI/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="QuakeBox" type="Sprite2D" parent="ActionUI/HBoxContainer/QuakeAction"]
+position = Vector2(1, 49)
+scale = Vector2(2, 2)
+texture = ExtResource("2_xlgpe")
+
+[node name="QuakeIcon" type="Button" parent="ActionUI/HBoxContainer/QuakeAction"]
+layout_mode = 0
+offset_left = -23.0
+offset_top = 25.0
+offset_right = 23.0
+offset_bottom = 71.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4a1wm")
+icon = ExtResource("6_frndh")
+flat = true
+expand_icon = true
+
+[node name="VolcanoAction" type="Control" parent="ActionUI/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VolcanoBox" type="Sprite2D" parent="ActionUI/HBoxContainer/VolcanoAction"]
+position = Vector2(1, 49)
+scale = Vector2(2, 2)
+texture = ExtResource("2_xlgpe")
+
+[node name="VolcanoIcon" type="Button" parent="ActionUI/HBoxContainer/VolcanoAction"]
+layout_mode = 0
+offset_left = -23.0
+offset_top = 25.0
+offset_right = 23.0
+offset_bottom = 71.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7ycbo")
+icon = ExtResource("7_jtgiw")
+flat = true
+expand_icon = true
+
+[node name="BuildAction" type="Control" parent="ActionUI/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BuildBox" type="Sprite2D" parent="ActionUI/HBoxContainer/BuildAction"]
+position = Vector2(1, 49)
+scale = Vector2(2, 2)
+texture = ExtResource("2_xlgpe")
+
+[node name="BuildIcon" type="Button" parent="ActionUI/HBoxContainer/BuildAction"]
+layout_mode = 0
+offset_left = -23.0
+offset_top = 25.0
+offset_right = 23.0
+offset_bottom = 71.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7ycbo")
+flat = true
+expand_icon = true
+
+[node name="BuildIconSprite" type="Sprite2D" parent="ActionUI/HBoxContainer/BuildAction/BuildIcon"]
+position = Vector2(23, 23)
+scale = Vector2(1.89, 1.89)
+texture = ExtResource("7_5kjy4")
+
+[node name="Resources" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+
+[node name="WoodLabel" type="Label" parent="Resources"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 11.0
+offset_top = 27.0
+offset_right = 107.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = "Wood :"
+
+[node name="FoodLabel" type="Label" parent="Resources"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 11.0
+offset_top = 44.0
+offset_right = 107.0
+offset_bottom = 67.0
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = "Food :"
+
+[connection signal="pressed" from="ActionUI/HBoxContainer/RainAction/RainIcon" to="." method="_on_rain_icon_pressed"]
+[connection signal="pressed" from="ActionUI/HBoxContainer/BuildAction/BuildIcon" to="." method="_on_build_icon_pressed"]

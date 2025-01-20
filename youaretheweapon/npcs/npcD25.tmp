@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://bf2cwhcpu8asq"]
+
+[ext_resource type="Script" path="res://npcs/npc.gd" id="1_2tusr"]
+[ext_resource type="Texture2D" uid="uid://h6q3cd3vjjjd" path="res://npcs/player.png" id="1_mcp0x"]
+[ext_resource type="Script" path="res://addons/utility_ai/agent/agent.gd" id="3_xr3ir"]
+[ext_resource type="Script" path="res://addons/utility_ai/actions/action.gd" id="4_h3oop"]
+[ext_resource type="Script" path="res://addons/utility_ai/considerations/consideration_from_node.gd" id="5_i7ywe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cobhd"]
+radius = 5.09902
+
+[sub_resource type="Curve" id="Curve_ffppj"]
+
+[node name="npc" type="CharacterBody2D"]
+script = ExtResource("1_2tusr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+texture = ExtResource("1_mcp0x")
+hframes = 6
+vframes = 10
+frame = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_cobhd")
+
+[node name="UtilityAiAgent" type="Node" parent="."]
+script = ExtResource("3_xr3ir")
+
+[node name="UtilityAiAction" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+
+[node name="UtilityAiConsiderationFromNode" type="Node" parent="UtilityAiAgent/UtilityAiAction" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../..")
+property_name = "energy"
+curve = SubResource("Curve_ffppj")
