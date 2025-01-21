@@ -32,13 +32,16 @@ mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ActionUI"]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 127.0
+offset_left = -163.0
 offset_top = -97.0
-offset_right = 489.0
+offset_right = 199.0
 offset_bottom = -57.0
+grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 75
 
@@ -173,6 +176,16 @@ offset_right = 107.0
 offset_bottom = 67.0
 theme_override_fonts/font = ExtResource("4_2oogm")
 text = "Food :"
+
+[node name="SeedLabel" type="Label" parent="Resources"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 11.0
+offset_top = 61.0
+offset_right = 107.0
+offset_bottom = 84.0
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = "Seed :"
 
 [connection signal="pressed" from="ActionUI/HBoxContainer/RainAction/RainIcon" to="." method="_on_rain_icon_pressed"]
 [connection signal="pressed" from="ActionUI/HBoxContainer/BuildAction/BuildIcon" to="." method="_on_build_icon_pressed"]

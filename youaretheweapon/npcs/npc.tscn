@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bf2cwhcpu8asq"]
+[gd_scene load_steps=20 format=3 uid="uid://bf2cwhcpu8asq"]
 
 [ext_resource type="Script" path="res://npcs/npc.gd" id="1_2tusr"]
 [ext_resource type="Texture2D" uid="uid://h6q3cd3vjjjd" path="res://npcs/player.png" id="1_mcp0x"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://addons/utility_ai/actions/action.gd" id="4_h3oop"]
 [ext_resource type="Script" path="res://addons/utility_ai/considerations/consideration_from_node.gd" id="5_i7ywe"]
 [ext_resource type="Script" path="res://addons/utility_ai/considerations/consideration.gd" id="6_ewfek"]
+[ext_resource type="Script" path="res://addons/utility_ai/considerations/aggregation.gd" id="7_xw3t2"]
 [ext_resource type="PackedScene" uid="uid://d0dhe2lv3x4u3" path="res://npcs/debug/utility_debug.tscn" id="8_gu8ci"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_asifn"]
@@ -55,15 +56,26 @@ _data = {
 }
 
 [sub_resource type="Curve" id="Curve_gyq3d"]
-_data = [Vector2(0, 0.296703), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.175824), 0.0, 0.0, 0, 0]
 point_count = 1
 
 [sub_resource type="Curve" id="Curve_ffppj"]
-_data = [Vector2(0.0148515, 1), 0.0, 0.0, 0, 0, Vector2(0.252475, 0), -0.130575, 0.0, 0, 0]
+_data = [Vector2(0.0148515, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 0), -0.130575, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ur87n"]
+_data = [Vector2(0, 0.120879), 0.0, 1.10989, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_o8gwj"]
+_data = [Vector2(0, 0.604396), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_82kbq"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="npc" type="CharacterBody2D"]
-z_index = 1
 script = ExtResource("1_2tusr")
 
 [node name="Flip" type="Node2D" parent="."]
@@ -109,14 +121,44 @@ curve = SubResource("Curve_gyq3d")
 script = ExtResource("4_h3oop")
 _action_id = "find_wood"
 
-[node name="WoodCount" type="Node" parent="UtilityAiAgent/GatherWood" node_paths=PackedStringArray("node")]
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/GatherWood"]
+script = ExtResource("7_xw3t2")
+
+[node name="WoodCount" type="Node" parent="UtilityAiAgent/GatherWood/UtilityAiAggregation" node_paths=PackedStringArray("node")]
 script = ExtResource("5_i7ywe")
-node = NodePath("../../..")
+node = NodePath("../../../..")
 property_name = "wood"
 max_value = 100.0
 curve = SubResource("Curve_ffppj")
 
+[node name="IsLaborer" type="Node" parent="UtilityAiAgent/GatherWood/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_laborer"
+curve = SubResource("Curve_ur87n")
+
+[node name="Farm" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "farm_food"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Farm"]
+script = ExtResource("7_xw3t2")
+
+[node name="NeedPlantHarvest" type="Node" parent="UtilityAiAgent/Farm/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+unique_name_in_owner = true
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "plantHarvestTiles"
+curve = SubResource("Curve_o8gwj")
+
+[node name="IsFarmer" type="Node" parent="UtilityAiAgent/Farm/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_farmer"
+curve = SubResource("Curve_82kbq")
+
 [node name="utility_debug" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("8_gu8ci")]
+visible = false
 scale = Vector2(0.5, 0.5)
 utility_agent = NodePath("../UtilityAiAgent")
 

@@ -29,7 +29,7 @@ position = Vector2(412, 182)
 position = Vector2(566, 176)
 
 [node name="WoodTimer" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 6.0
 autostart = true
 
 [connection signal="timeout" from="WoodTimer" to="." method="_on_timer_timeout"]

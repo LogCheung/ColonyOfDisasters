@@ -4,11 +4,13 @@ extends CanvasLayer
 @onready var wood: Label = %WoodLabel
 @onready var food: Label = %FoodLabel
 @onready var rain: Button = %RainIcon
+@onready var seeds: Label = %SeedLabel
 
 func _process(_delta: float) -> void: 
 	wood.text = "Wood: " + str(Global.wood)
 	food.text = "Food: " + str(Global.food)
-
+	seeds.text = "Seed: " + str(Global.seeds)
+	
 
 func _on_rain_icon_pressed() -> void:
 	world.using_rain = true
