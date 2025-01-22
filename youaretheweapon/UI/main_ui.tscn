@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bvyr1woplcwbb"]
+[gd_scene load_steps=15 format=3 uid="uid://bvyr1woplcwbb"]
 
 [ext_resource type="Script" path="res://UI/main_ui.gd" id="1_nb8ua"]
 [ext_resource type="Texture2D" uid="uid://bi7t22eafglna" path="res://UI/Sprites/HotkeyBox_34x34.png" id="2_xlgpe"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bfjs6wfiutnar" path="res://UI/abilityIcons/quake.png" id="6_frndh"]
 [ext_resource type="Texture2D" uid="uid://dwopqcne3ai2t" path="res://UI/abilityIcons/holyland.png" id="7_5kjy4"]
 [ext_resource type="Texture2D" uid="uid://dwrrft55ujooe" path="res://UI/abilityIcons/volcano.png" id="7_jtgiw"]
+[ext_resource type="Texture2D" uid="uid://c3faj3jvj30m2" path="res://UI/resourceSprites/resources.png" id="9_uo2or"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71li2"]
 
@@ -16,6 +17,9 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4a1wm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ycbo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jithv"]
+font = ExtResource("4_2oogm")
 
 [node name="MainUI" type="CanvasLayer"]
 script = ExtResource("1_nb8ua")
@@ -76,6 +80,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_xlgpe")
 
 [node name="WindIcon" type="Button" parent="ActionUI/HBoxContainer/WindAction"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = -23.0
 offset_top = 25.0
@@ -160,32 +165,212 @@ mouse_filter = 2
 [node name="WoodLabel" type="Label" parent="Resources"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 11.0
-offset_top = 27.0
-offset_right = 107.0
-offset_bottom = 50.0
+offset_left = 6.0
+offset_top = 30.0
+offset_right = 102.0
+offset_bottom = 53.0
 theme_override_fonts/font = ExtResource("4_2oogm")
-text = "Wood :"
+text = " :"
+horizontal_alignment = 1
+
+[node name="Wood" type="Sprite2D" parent="Resources/WoodLabel"]
+position = Vector2(23, 1)
+scale = Vector2(2, 2)
+texture = ExtResource("9_uo2or")
+hframes = 4
+vframes = 4
+frame = 4
 
 [node name="FoodLabel" type="Label" parent="Resources"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 11.0
-offset_top = 44.0
-offset_right = 107.0
-offset_bottom = 67.0
+offset_left = 14.0
+offset_top = 64.0
+offset_right = 110.0
+offset_bottom = 87.0
 theme_override_fonts/font = ExtResource("4_2oogm")
-text = "Food :"
+text = ":"
+horizontal_alignment = 1
+
+[node name="Food" type="Sprite2D" parent="Resources/FoodLabel"]
+position = Vector2(15, 1)
+scale = Vector2(2, 2)
+texture = ExtResource("9_uo2or")
+hframes = 4
+vframes = 4
+frame = 5
 
 [node name="SeedLabel" type="Label" parent="Resources"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 11.0
-offset_top = 61.0
-offset_right = 107.0
-offset_bottom = 84.0
+offset_left = 14.0
+offset_top = 103.0
+offset_right = 110.0
+offset_bottom = 126.0
 theme_override_fonts/font = ExtResource("4_2oogm")
-text = "Seed :"
+text = ":"
+horizontal_alignment = 1
+
+[node name="Seed" type="Sprite2D" parent="Resources/SeedLabel"]
+position = Vector2(15, 1)
+scale = Vector2(2, 2)
+texture = ExtResource("9_uo2or")
+hframes = 4
+vframes = 4
+frame = 6
+
+[node name="FaithLabel" type="Label" parent="Resources"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 141.0
+offset_right = 110.0
+offset_bottom = 164.0
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = ":"
+horizontal_alignment = 1
+
+[node name="Faith" type="Sprite2D" parent="Resources/FaithLabel"]
+position = Vector2(15, 3)
+scale = Vector2(2, 2)
+texture = ExtResource("9_uo2or")
+hframes = 4
+vframes = 4
+frame = 13
+
+[node name="AdultsLabel" type="Label" parent="Resources"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 178.0
+offset_right = 110.0
+offset_bottom = 201.0
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = ":"
+horizontal_alignment = 1
+
+[node name="Adult" type="Sprite2D" parent="Resources/AdultsLabel"]
+position = Vector2(15, 5)
+scale = Vector2(2, 2)
+texture = ExtResource("9_uo2or")
+hframes = 4
+vframes = 4
+frame = 14
+
+[node name="ChildLabel" type="Label" parent="Resources"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 217.0
+offset_right = 110.0
+offset_bottom = 240.0
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = ":"
+horizontal_alignment = 1
+
+[node name="Child" type="Sprite2D" parent="Resources/ChildLabel"]
+position = Vector2(15, 5)
+scale = Vector2(2, 2)
+texture = ExtResource("9_uo2or")
+hframes = 4
+vframes = 4
+frame = 15
+
+[node name="ChoiceAlert" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -81.0
+offset_top = -46.5
+offset_right = 81.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="ChoiceAlert"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_jithv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Yes" type="Button" parent="ChoiceAlert"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_right = -10.0
+offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "YES"
+
+[node name="No" type="Button" parent="ChoiceAlert"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_right = 47.0
+offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "NO
+"
+
+[node name="UnableWarning" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -81.0
+offset_top = 43.0
+offset_right = 81.0
+offset_bottom = 136.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="UnableWarning"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -11.5
+offset_right = 64.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "asagsags"
+label_settings = SubResource("LabelSettings_jithv")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="ActionUI/HBoxContainer/RainAction/RainIcon" to="." method="_on_rain_icon_pressed"]
+[connection signal="pressed" from="ActionUI/HBoxContainer/WindAction/WindIcon" to="." method="_on_wind_icon_pressed"]
 [connection signal="pressed" from="ActionUI/HBoxContainer/BuildAction/BuildIcon" to="." method="_on_build_icon_pressed"]
+[connection signal="pressed" from="ChoiceAlert/Yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="ChoiceAlert/No" to="." method="_on_no_pressed"]
