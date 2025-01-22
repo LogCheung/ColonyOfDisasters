@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bf2cwhcpu8asq"]
+[gd_scene load_steps=30 format=3 uid="uid://bf2cwhcpu8asq"]
 
 [ext_resource type="Script" path="res://npcs/npc.gd" id="1_2tusr"]
 [ext_resource type="Texture2D" uid="uid://h6q3cd3vjjjd" path="res://npcs/player.png" id="1_mcp0x"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://addons/utility_ai/agent/agent.gd" id="3_xr3ir"]
 [ext_resource type="Script" path="res://addons/utility_ai/actions/action.gd" id="4_h3oop"]
 [ext_resource type="Script" path="res://addons/utility_ai/considerations/consideration_from_node.gd" id="5_i7ywe"]
-[ext_resource type="Script" path="res://addons/utility_ai/considerations/consideration.gd" id="6_ewfek"]
 [ext_resource type="Script" path="res://addons/utility_ai/considerations/aggregation.gd" id="7_xw3t2"]
 [ext_resource type="PackedScene" uid="uid://d0dhe2lv3x4u3" path="res://npcs/debug/utility_debug.tscn" id="8_gu8ci"]
 
@@ -15,7 +14,7 @@ radius = 5.0
 height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cobhd"]
-radius = 5.09902
+radius = 5.0
 
 [sub_resource type="Animation" id="Animation_4kyhn"]
 length = 0.001
@@ -55,27 +54,74 @@ _data = {
 "chop": SubResource("Animation_eprh6")
 }
 
-[sub_resource type="Curve" id="Curve_gyq3d"]
-_data = [Vector2(0, 0.175824), 0.0, 0.0, 0, 0]
-point_count = 1
+[sub_resource type="Curve" id="Curve_exubw"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.39604, 0.659341), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_c4n2b"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_txtey"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_44m0d"]
+_data = [Vector2(0, 0.648352), 0.0, 0.0, 0, 0, Vector2(1, 0.296703), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_noww2"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_665gt"]
+_data = [Vector2(0, 0.098901), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_0o3ak"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="Curve" id="Curve_ffppj"]
-_data = [Vector2(0.0148515, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 0), -0.130575, 0.0, 0, 0]
+_data = [Vector2(0, 0.901099), 0.0, 0.0, 0, 0, Vector2(0.5, 0), -0.130575, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_ur87n"]
-_data = [Vector2(0, 0.120879), 0.0, 1.10989, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.362637), 0.0, 1.10989, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_n5ghs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_o8gwj"]
-_data = [Vector2(0, 0.604396), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.362637), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_82kbq"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
+[sub_resource type="Curve" id="Curve_uhqm7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_v0kg1"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4vwlh"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_gwey4"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="npc" type="CharacterBody2D"]
+z_index = 1
+motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_2tusr")
 
 [node name="Flip" type="Node2D" parent="."]
@@ -109,13 +155,75 @@ libraries = {
 [node name="UtilityAiAgent" type="Node" parent="."]
 script = ExtResource("3_xr3ir")
 
+[node name="Pray" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_pray"
+
+[node name="UtilityAiAggregation2" type="Node" parent="UtilityAiAgent/Pray"]
+script = ExtResource("7_xw3t2")
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Pray/UtilityAiAggregation2"]
+script = ExtResource("7_xw3t2")
+
+[node name="satisfaction" type="Node" parent="UtilityAiAgent/Pray/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "satisfaction"
+max_value = 100.0
+curve = SubResource("Curve_exubw")
+
+[node name="pray_on_cooldown" type="Node" parent="UtilityAiAgent/Pray/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "pray_is_on_cooldown"
+curve = SubResource("Curve_c4n2b")
+
+[node name="is_resting" type="Node" parent="UtilityAiAgent/Pray/UtilityAiAggregation2" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_txtey")
+
 [node name="Idle" type="Node" parent="UtilityAiAgent"]
 script = ExtResource("4_h3oop")
 _action_id = "idle"
 
-[node name="Nothing" type="Node" parent="UtilityAiAgent/Idle"]
-script = ExtResource("6_ewfek")
-curve = SubResource("Curve_gyq3d")
+[node name="UtilityAiAggregation2" type="Node" parent="UtilityAiAgent/Idle"]
+script = ExtResource("7_xw3t2")
+
+[node name="is_praying" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "did_you_pray_today"
+curve = SubResource("Curve_44m0d")
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2"]
+script = ExtResource("7_xw3t2")
+aggregation_type = 3
+
+[node name="is_child" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "is_child"
+curve = SubResource("Curve_noww2")
+
+[node name="is_resting" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_665gt")
+
+[node name="is_resting2" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_665gt")
+
+[node name="is_pregnant" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "is_pregnant"
+curve = SubResource("Curve_0o3ak")
 
 [node name="GatherWood" type="Node" parent="UtilityAiAgent"]
 script = ExtResource("4_h3oop")
@@ -137,6 +245,12 @@ node = NodePath("../../../..")
 property_name = "is_laborer"
 curve = SubResource("Curve_ur87n")
 
+[node name="is_resting3" type="Node" parent="UtilityAiAgent/GatherWood/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_n5ghs")
+
 [node name="Farm" type="Node" parent="UtilityAiAgent"]
 script = ExtResource("4_h3oop")
 _action_id = "farm_food"
@@ -157,11 +271,85 @@ node = NodePath("../../../..")
 property_name = "is_farmer"
 curve = SubResource("Curve_82kbq")
 
+[node name="is_resting4" type="Node" parent="UtilityAiAgent/Farm/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_uhqm7")
+
+[node name="Sleeping" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_sleep"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Sleeping"]
+script = ExtResource("7_xw3t2")
+aggregation_type = 2
+
+[node name="is_sleep" type="Node" parent="UtilityAiAgent/Sleeping/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_sleeping"
+curve = SubResource("Curve_v0kg1")
+
+[node name="is_sleep2" type="Node" parent="UtilityAiAgent/Sleeping/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_sleeping"
+curve = SubResource("Curve_v0kg1")
+
+[node name="Build" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_build"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Build"]
+script = ExtResource("7_xw3t2")
+
+[node name="IsLaborer" type="Node" parent="UtilityAiAgent/Build/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_laborer"
+curve = SubResource("Curve_ur87n")
+
+[node name="NeedBuild" type="Node" parent="UtilityAiAgent/Build/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "need_build"
+curve = SubResource("Curve_4vwlh")
+
+[node name="IsInBuilderSlot" type="Node" parent="UtilityAiAgent/Build/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_in_slot"
+curve = SubResource("Curve_gwey4")
+
 [node name="utility_debug" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("8_gu8ci")]
-visible = false
 scale = Vector2(0.5, 0.5)
 utility_agent = NodePath("../UtilityAiAgent")
 
+[node name="EatTimer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="PrayCooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 8.0
+one_shot = true
+
+[node name="WanderTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 6.0
+target_desired_distance = 6.0
+path_postprocessing = 1
+simplify_path = true
+
+[connection signal="day_passed" from="." to="." method="_on_day_passed"]
 [connection signal="top_score_action_changed" from="UtilityAiAgent" to="." method="_on_utility_ai_agent_top_score_action_changed"]
+[connection signal="timeout" from="EatTimer" to="." method="_on_eat_timer_timeout"]
+[connection signal="timeout" from="PrayCooldown" to="." method="_on_pray_cooldown_timeout"]
+[connection signal="timeout" from="WanderTimer" to="." method="_on_wander_timer_timeout"]
 
 [editable path="Flip/HitBox"]

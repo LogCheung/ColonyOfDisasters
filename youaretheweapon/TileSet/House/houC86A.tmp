@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://7omk2oiqgauf"]
+
+[ext_resource type="Script" path="res://TileSet/House/house.gd" id="1_4nl6a"]
+[ext_resource type="Texture2D" uid="uid://6a67fqc2brll" path="res://TileSet/House/house.png" id="2_ivxer"]
+[ext_resource type="Material" uid="uid://dcfuoxqlvg3v2" path="res://TileSet/House/houseOutline.tres" id="2_sjosw"]
+[ext_resource type="Texture2D" uid="uid://jds02lcxyaoa" path="res://TileSet/House/BuffIcons_16x16.png" id="4_ei5bp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pd5l1"]
+size = Vector2(22, 22.5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d45eg"]
+
+[node name="House" type="StaticBody2D" groups=["HOUSE"]]
+script = ExtResource("1_4nl6a")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+unique_name_in_owner = true
+material = ExtResource("2_sjosw")
+position = Vector2(8, -8)
+texture = ExtResource("2_ivxer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, -3.25)
+shape = SubResource("RectangleShape2D_pd5l1")
+
+[node name="bed" type="Node2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="Button" type="Button" parent="."]
+visible = false
+offset_left = 2.0
+offset_top = -38.0
+offset_right = 13.0
+offset_bottom = -27.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_d45eg")
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Button"]
+position = Vector2(6, 5)
+texture = ExtResource("4_ei5bp")
+hframes = 4
+vframes = 4
+frame = 3
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

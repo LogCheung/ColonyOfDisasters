@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dcfuoxqlvg3v2"]
+
+[ext_resource type="Shader" path="res://TileSet/House/house.gdshader" id="1_l0m71"]
+
+[resource]
+shader = ExtResource("1_l0m71")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 1.0

@@ -24,12 +24,22 @@ zoom = Vector2(2, 2)
 
 [node name="npc" parent="NPCs" instance=ExtResource("2_pc43h")]
 position = Vector2(412, 182)
+is_child = true
 
 [node name="npc2" parent="NPCs" instance=ExtResource("2_pc43h")]
 position = Vector2(566, 176)
 
-[node name="WoodTimer" type="Timer" parent="."]
-wait_time = 6.0
+[node name="npc3" parent="NPCs" instance=ExtResource("2_pc43h")]
+position = Vector2(337, 180)
+
+[node name="npc4" parent="NPCs" instance=ExtResource("2_pc43h")]
+position = Vector2(453, 106)
+
+[node name="HourTimer" type="Timer" parent="."]
+wait_time = 3.0
 autostart = true
 
-[connection signal="timeout" from="WoodTimer" to="." method="_on_timer_timeout"]
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="HourTimer" to="." method="_on_hour_timer_timeout"]
