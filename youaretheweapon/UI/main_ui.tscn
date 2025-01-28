@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bvyr1woplcwbb"]
+[gd_scene load_steps=16 format=3 uid="uid://bvyr1woplcwbb"]
 
 [ext_resource type="Script" path="res://UI/main_ui.gd" id="1_nb8ua"]
 [ext_resource type="Texture2D" uid="uid://bi7t22eafglna" path="res://UI/Sprites/HotkeyBox_34x34.png" id="2_xlgpe"]
@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cf1udjbgp35n1" path="res://UI/abilityIcons/Wind.png" id="5_d1mok"]
 [ext_resource type="Texture2D" uid="uid://bfjs6wfiutnar" path="res://UI/abilityIcons/quake.png" id="6_frndh"]
 [ext_resource type="Texture2D" uid="uid://dwopqcne3ai2t" path="res://UI/abilityIcons/holyland.png" id="7_5kjy4"]
-[ext_resource type="Texture2D" uid="uid://dwrrft55ujooe" path="res://UI/abilityIcons/volcano.png" id="7_jtgiw"]
+[ext_resource type="Texture2D" uid="uid://dbjwinjc16s3i" path="res://TileSet/Resources/Rotate.png" id="9_3h1ol"]
+[ext_resource type="Texture2D" uid="uid://bdwkfb2p451rx" path="res://UI/resourceSprites/ui.png" id="9_ssvgr"]
 [ext_resource type="Texture2D" uid="uid://c3faj3jvj30m2" path="res://UI/resourceSprites/resources.png" id="9_uo2or"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71li2"]
@@ -101,6 +102,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("2_xlgpe")
 
 [node name="QuakeIcon" type="Button" parent="ActionUI/HBoxContainer/QuakeAction"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = -23.0
 offset_top = 25.0
@@ -108,26 +110,6 @@ offset_right = 23.0
 offset_bottom = 71.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_4a1wm")
 icon = ExtResource("6_frndh")
-flat = true
-expand_icon = true
-
-[node name="VolcanoAction" type="Control" parent="ActionUI/HBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="VolcanoBox" type="Sprite2D" parent="ActionUI/HBoxContainer/VolcanoAction"]
-position = Vector2(1, 49)
-scale = Vector2(2, 2)
-texture = ExtResource("2_xlgpe")
-
-[node name="VolcanoIcon" type="Button" parent="ActionUI/HBoxContainer/VolcanoAction"]
-layout_mode = 0
-offset_left = -23.0
-offset_top = 25.0
-offset_right = 23.0
-offset_bottom = 71.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7ycbo")
-icon = ExtResource("7_jtgiw")
 flat = true
 expand_icon = true
 
@@ -162,114 +144,160 @@ offset_right = 1152.0
 offset_bottom = 648.0
 mouse_filter = 2
 
-[node name="WoodLabel" type="Label" parent="Resources"]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="Resources"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 0
-offset_left = 6.0
-offset_top = 30.0
-offset_right = 102.0
-offset_bottom = 53.0
+offset_left = 20.0
+offset_top = 26.25
+offset_right = 117.0
+offset_bottom = 258.25
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="WoodLabel" type="Label" parent="Resources/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_fonts/font = ExtResource("4_2oogm")
-text = " :"
+text = ":"
 horizontal_alignment = 1
 
-[node name="Wood" type="Sprite2D" parent="Resources/WoodLabel"]
-position = Vector2(23, 1)
+[node name="Wood" type="Sprite2D" parent="Resources/VBoxContainer/WoodLabel"]
+position = Vector2(14, 2.75)
 scale = Vector2(2, 2)
 texture = ExtResource("9_uo2or")
 hframes = 4
 vframes = 4
 frame = 4
 
-[node name="FoodLabel" type="Label" parent="Resources"]
+[node name="StoneLabel" type="Label" parent="Resources/VBoxContainer"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 64.0
-offset_right = 110.0
-offset_bottom = 87.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("4_2oogm")
 text = ":"
 horizontal_alignment = 1
 
-[node name="Food" type="Sprite2D" parent="Resources/FoodLabel"]
-position = Vector2(15, 1)
+[node name="Stone" type="Sprite2D" parent="Resources/VBoxContainer/StoneLabel"]
+position = Vector2(13.25, 4)
+scale = Vector2(2, 2)
+texture = ExtResource("9_ssvgr")
+hframes = 5
+vframes = 4
+frame = 8
+
+[node name="FoodLabel" type="Label" parent="Resources/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = ":"
+horizontal_alignment = 1
+
+[node name="Food" type="Sprite2D" parent="Resources/VBoxContainer/FoodLabel"]
+position = Vector2(15, 2)
 scale = Vector2(2, 2)
 texture = ExtResource("9_uo2or")
 hframes = 4
 vframes = 4
 frame = 5
 
-[node name="SeedLabel" type="Label" parent="Resources"]
+[node name="SeedLabel" type="Label" parent="Resources/VBoxContainer"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 103.0
-offset_right = 110.0
-offset_bottom = 126.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("4_2oogm")
 text = ":"
 horizontal_alignment = 1
 
-[node name="Seed" type="Sprite2D" parent="Resources/SeedLabel"]
-position = Vector2(15, 1)
+[node name="Seed" type="Sprite2D" parent="Resources/VBoxContainer/SeedLabel"]
+position = Vector2(15, 2)
 scale = Vector2(2, 2)
 texture = ExtResource("9_uo2or")
 hframes = 4
 vframes = 4
 frame = 6
 
-[node name="FaithLabel" type="Label" parent="Resources"]
+[node name="OreLabel" type="Label" parent="Resources/VBoxContainer"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 141.0
-offset_right = 110.0
-offset_bottom = 164.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("4_2oogm")
 text = ":"
 horizontal_alignment = 1
 
-[node name="Faith" type="Sprite2D" parent="Resources/FaithLabel"]
-position = Vector2(15, 3)
+[node name="Ore" type="Sprite2D" parent="Resources/VBoxContainer/OreLabel"]
+position = Vector2(14.25, 3)
+scale = Vector2(2, 2)
+texture = ExtResource("9_ssvgr")
+hframes = 5
+vframes = 4
+frame = 9
+
+[node name="MetalLabel" type="Label" parent="Resources/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = ":"
+horizontal_alignment = 1
+
+[node name="Metal" type="Sprite2D" parent="Resources/VBoxContainer/MetalLabel"]
+position = Vector2(14.25, 6)
+scale = Vector2(2, 2)
+texture = ExtResource("9_uo2or")
+hframes = 4
+vframes = 4
+frame = 8
+
+[node name="ToolsLabel" type="Label" parent="Resources/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = ":"
+horizontal_alignment = 1
+
+[node name="Tools" type="Sprite2D" parent="Resources/VBoxContainer/ToolsLabel"]
+position = Vector2(14.25, 7)
+scale = Vector2(2, 2)
+texture = ExtResource("9_ssvgr")
+hframes = 5
+vframes = 4
+frame = 14
+
+[node name="FaithLabel" type="Label" parent="Resources/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = ":"
+horizontal_alignment = 1
+
+[node name="Faith" type="Sprite2D" parent="Resources/VBoxContainer/FaithLabel"]
+position = Vector2(15, 4)
 scale = Vector2(2, 2)
 texture = ExtResource("9_uo2or")
 hframes = 4
 vframes = 4
 frame = 13
 
-[node name="AdultsLabel" type="Label" parent="Resources"]
+[node name="AdultsLabel" type="Label" parent="Resources/VBoxContainer"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 178.0
-offset_right = 110.0
-offset_bottom = 201.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("4_2oogm")
 text = ":"
 horizontal_alignment = 1
 
-[node name="Adult" type="Sprite2D" parent="Resources/AdultsLabel"]
-position = Vector2(15, 5)
+[node name="Adult" type="Sprite2D" parent="Resources/VBoxContainer/AdultsLabel"]
+position = Vector2(15, 6)
 scale = Vector2(2, 2)
 texture = ExtResource("9_uo2or")
 hframes = 4
 vframes = 4
 frame = 14
 
-[node name="ChildLabel" type="Label" parent="Resources"]
+[node name="ChildLabel" type="Label" parent="Resources/VBoxContainer"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 217.0
-offset_right = 110.0
-offset_bottom = 240.0
+layout_mode = 2
 theme_override_fonts/font = ExtResource("4_2oogm")
 text = ":"
 horizontal_alignment = 1
 
-[node name="Child" type="Sprite2D" parent="Resources/ChildLabel"]
-position = Vector2(15, 5)
+[node name="Child" type="Sprite2D" parent="Resources/VBoxContainer/ChildLabel"]
+position = Vector2(15, 6)
 scale = Vector2(2, 2)
 texture = ExtResource("9_uo2or")
 hframes = 4
@@ -369,8 +397,41 @@ label_settings = SubResource("LabelSettings_jithv")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Keybind" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -83.0
+offset_top = -126.0
+offset_right = -43.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Keybind"]
+position = Vector2(-14, -3)
+scale = Vector2(3, 3)
+texture = ExtResource("9_3h1ol")
+
+[node name="Label" type="Label" parent="Keybind"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = -12.0
+offset_right = 114.0
+offset_bottom = 11.0
+scale = Vector2(0.75, 0.75)
+theme_override_fonts/font = ExtResource("4_2oogm")
+theme_override_font_sizes/font_size = 16
+text = "Rotate"
+
 [connection signal="pressed" from="ActionUI/HBoxContainer/RainAction/RainIcon" to="." method="_on_rain_icon_pressed"]
 [connection signal="pressed" from="ActionUI/HBoxContainer/WindAction/WindIcon" to="." method="_on_wind_icon_pressed"]
+[connection signal="pressed" from="ActionUI/HBoxContainer/QuakeAction/QuakeIcon" to="." method="_on_quake_icon_pressed"]
 [connection signal="pressed" from="ActionUI/HBoxContainer/BuildAction/BuildIcon" to="." method="_on_build_icon_pressed"]
 [connection signal="pressed" from="ChoiceAlert/Yes" to="." method="_on_yes_pressed"]
 [connection signal="pressed" from="ChoiceAlert/No" to="." method="_on_no_pressed"]

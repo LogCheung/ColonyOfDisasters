@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4j42eyf008ai"]
+
+[ext_resource type="Texture2D" uid="uid://6a67fqc2brll" path="res://TileSet/House/house.png" id="1_v154g"]
+
+[node name="Row" type="HBoxContainer"]
+theme_override_constants/separation = 15
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Marker2D" type="Marker2D" parent="Control" groups=["ALLYMARKER"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="Control"]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_v154g")
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Marker2D" type="Marker2D" parent="Control2" groups=["ALLYMARKER"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="Control2"]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_v154g")
+
+[node name="Control3" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Marker2D" type="Marker2D" parent="Control3" groups=["ALLYMARKER"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="Control3"]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_v154g")
+
+[node name="Control4" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Marker2D" type="Marker2D" parent="Control4" groups=["ALLYMARKER"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="Control4"]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_v154g")
+
+[node name="Control5" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Marker2D" type="Marker2D" parent="Control5" groups=["ALLYMARKER"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="Control5"]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_v154g")

@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://jjq8or4f0k0y"]
+
+[ext_resource type="Script" path="res://Banner/banner.gd" id="1_g47l7"]
+[ext_resource type="PackedScene" uid="uid://b4j42eyf008ai" path="res://Banner/row.tscn" id="2_02mpg"]
+[ext_resource type="Texture2D" uid="uid://cs3hll7m27fqn" path="res://Banner/Raider/EnemySwordIcon.png" id="3_q3dsk"]
+[ext_resource type="PackedScene" uid="uid://dryr0584ni68t" path="res://Banner/UI/ally_power.tscn" id="4_ilg2c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_56nwn"]
+
+[node name="Banner" type="CharacterBody2D" groups=["ALLYBANNER"]]
+script = ExtResource("1_g47l7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_56nwn")
+disabled = true
+
+[node name="Orientation" type="Node2D" parent="."]
+position = Vector2(-3, -35)
+rotation = 1.5708
+
+[node name="Floors" type="VBoxContainer" parent="Orientation"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = -3.00004
+offset_right = 85.0
+offset_bottom = 37.0
+theme_override_constants/separation = 20
+
+[node name="Row" parent="Orientation/Floors" instance=ExtResource("2_02mpg")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 3
+texture = ExtResource("3_q3dsk")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 8.0
+target_desired_distance = 8.0
+
+[node name="AllyPower" parent="." instance=ExtResource("4_ilg2c")]
+unique_name_in_owner = true
+visible = false
+offset_left = -52.0
+offset_top = -20.0
+offset_right = 12.0
+offset_bottom = 20.0
+rotation = 1.5708
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+
+[editable path="AllyPower"]

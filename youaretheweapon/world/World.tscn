@@ -3,37 +3,34 @@
 [ext_resource type="PackedScene" uid="uid://cikctkripo73r" path="res://TileSet/tile_map.tscn" id="1_d80rd"]
 [ext_resource type="Script" path="res://world/world.gd" id="1_rf4s4"]
 [ext_resource type="PackedScene" uid="uid://bvyr1woplcwbb" path="res://UI/main_ui.tscn" id="2_ggfrl"]
-[ext_resource type="PackedScene" uid="uid://bf2cwhcpu8asq" path="res://npcs/npc.tscn" id="2_pc43h"]
+[ext_resource type="Script" path="res://world/camera_2d.gd" id="4_4sdu6"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
+texture_filter = 1
 script = ExtResource("1_rf4s4")
+power = 5
 
 [node name="TileMap" parent="." instance=ExtResource("1_d80rd")]
 unique_name_in_owner = true
 use_parent_material = false
+position = Vector2(0, 0)
 
 [node name="MainUI" parent="." instance=ExtResource("2_ggfrl")]
 unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(305, 183)
+position = Vector2(1230, 977)
 zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_right = 1213
+limit_bottom = 1200
+limit_smoothed = true
+script = ExtResource("4_4sdu6")
 
 [node name="NPCs" type="Node2D" parent="."]
-
-[node name="npc" parent="NPCs" instance=ExtResource("2_pc43h")]
-position = Vector2(412, 182)
-is_child = true
-
-[node name="npc2" parent="NPCs" instance=ExtResource("2_pc43h")]
-position = Vector2(566, 176)
-
-[node name="npc3" parent="NPCs" instance=ExtResource("2_pc43h")]
-position = Vector2(337, 180)
-
-[node name="npc4" parent="NPCs" instance=ExtResource("2_pc43h")]
-position = Vector2(453, 106)
+y_sort_enabled = true
 
 [node name="HourTimer" type="Timer" parent="."]
 wait_time = 3.0
@@ -41,5 +38,8 @@ autostart = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 unique_name_in_owner = true
+
+[node name="Enemies" type="Node2D" parent="."]
+position = Vector2(1255, 1025)
 
 [connection signal="timeout" from="HourTimer" to="." method="_on_hour_timer_timeout"]

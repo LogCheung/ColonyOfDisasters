@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://dspvup1kfstbm"]
+
+[ext_resource type="Script" path="res://Banner/enemy_banner.gd" id="1_afe6v"]
+[ext_resource type="PackedScene" uid="uid://331w47rb1omm" path="res://Banner/enemy_row.tscn" id="2_ntwcg"]
+[ext_resource type="PackedScene" uid="uid://yyocpb6tg4j6" path="res://Banner/UI/enemy_power.tscn" id="3_5cu5w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vsoxw"]
+
+[node name="enemyBanner" type="CharacterBody2D" groups=["ENEMYBANNER"]]
+script = ExtResource("1_afe6v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vsoxw")
+disabled = true
+
+[node name="Orientation" type="Node2D" parent="."]
+position = Vector2(-3, -34)
+rotation = 1.5708
+
+[node name="Floors" type="VBoxContainer" parent="Orientation"]
+unique_name_in_owner = true
+offset_left = 3.99999
+offset_top = -3.00004
+offset_right = 84.0
+offset_bottom = 37.0
+theme_override_constants/separation = 20
+
+[node name="EnemyRow" parent="Orientation/Floors" instance=ExtResource("2_ntwcg")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 8.0
+target_desired_distance = 8.0
+
+[node name="EnemyPower" parent="." instance=ExtResource("3_5cu5w")]
+unique_name_in_owner = true
+offset_left = -52.0
+offset_top = -20.0
+offset_right = 12.0
+offset_bottom = 20.0
+rotation = 1.5708
+
+[editable path="EnemyPower"]

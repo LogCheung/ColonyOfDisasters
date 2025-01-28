@@ -6,11 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://jds02lcxyaoa" path="res://TileSet/House/BuffIcons_16x16.png" id="4_ei5bp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pd5l1"]
-size = Vector2(22, 22.5)
+size = Vector2(24, 24)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d45eg"]
 
 [node name="House" type="StaticBody2D" groups=["HOUSE"]]
+z_index = 2
 script = ExtResource("1_4nl6a")
 
 [node name="Node2D" type="Node2D" parent="."]
@@ -22,7 +23,7 @@ position = Vector2(8, -8)
 texture = ExtResource("2_ivxer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8, -3.25)
+position = Vector2(8, -4)
 shape = SubResource("RectangleShape2D_pd5l1")
 
 [node name="bed" type="Node2D" parent="."]
