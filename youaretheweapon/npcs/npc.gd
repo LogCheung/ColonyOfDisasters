@@ -679,11 +679,12 @@ func _on_day_passed() -> void:
 			if Global.winter:
 				satisfaction -= 1.5
 			satisfaction -= 2.5
-		else:
+			
 			if %ColdTimer.time_left > 0:
 				%ColdTimer.stop()
 				Global.wood -= 1
 			no_fuel.visible = true
+		else:
 			if Global.winter:
 				Global.wood -= 1
 			Global.wood -= 1

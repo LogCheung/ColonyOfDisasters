@@ -11,7 +11,7 @@ var ROW : PackedScene = preload("res://Banner/enemy_row.tscn")
 @onready var positions : Array = get_tree().get_nodes_in_group("ENEMYMARKER")
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
 
-var speed : float = 2000.00
+var speed : float = 400.00
 var _target 
 var strength : int
 var initial_form : bool = true

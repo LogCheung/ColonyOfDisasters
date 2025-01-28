@@ -15,6 +15,10 @@ const ALLY_POWER = preload("res://Banner/UI/ally_power.tscn")
 @onready var ore: Label = %OreLabel
 @onready var metal: Label = %MetalLabel
 @onready var tools: Label = %ToolsLabel
+
+@onready var wind_audio: AudioStreamPlayer2D = %WindAudio
+@onready var rain_audio: AudioStreamPlayer2D = %RainAudio
+
 #@onready var ally_power: Control = %AllyPower
 
 
@@ -68,3 +72,14 @@ func _on_yes_pressed() -> void:
 func _on_no_pressed() -> void:
 	proceed = 1 # no
 	choice_alert.visible = false
+
+func play_sound(power : int):
+	match power:
+		1:
+			rain_audio.play()
+			await get_tree().create_timer(1.5).timeout
+			rain_audio.stop()
+		2:
+			wind_audio.play()
+			await get_tree().create_timer(1.5).timeout
+			wind_audio.stop()
