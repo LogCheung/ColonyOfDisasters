@@ -168,7 +168,6 @@ func signal_day_passed():
 	
 	days_until_raid -= 1
 	if days_until_raid <= 0:
-		print("WOWWW")
 		for i in range(Global.day / 2):
 			var enemy = ENEMY.instantiate()
 			enemy.global_position = enemies.global_position
@@ -176,7 +175,6 @@ func signal_day_passed():
 		
 		var enemy_banner = ENEMY_BANNER.instantiate()
 		enemy_banner.global_position = enemies.global_position
-		print(enemy_banner.global_position)
 		add_child(enemy_banner)
 		
 		tileMap.initiate_raid()

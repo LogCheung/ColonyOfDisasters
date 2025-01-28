@@ -16,7 +16,7 @@ var ROW : PackedScene = preload("res://Banner/row.tscn")
 
 var enemy_banner 
 var strength : int
-var speed : float = 1400.00
+var speed : float = 400.00
 var _target 
 var initial_form : bool = true
 var player_bias = 1

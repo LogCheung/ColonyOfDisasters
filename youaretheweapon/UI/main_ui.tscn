@@ -1,11 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://bvyr1woplcwbb"]
+[gd_scene load_steps=18 format=3 uid="uid://bvyr1woplcwbb"]
 
 [ext_resource type="Script" path="res://UI/main_ui.gd" id="1_nb8ua"]
 [ext_resource type="Texture2D" uid="uid://bi7t22eafglna" path="res://UI/Sprites/HotkeyBox_34x34.png" id="2_xlgpe"]
 [ext_resource type="FontFile" uid="uid://cdgtlu4thtiug" path="res://UI/PressStart2P.ttf" id="4_2oogm"]
 [ext_resource type="Texture2D" uid="uid://b7aeg72sbveul" path="res://UI/abilityIcons/Rain.png" id="4_jcktn"]
+[ext_resource type="AudioStream" uid="uid://6iv8otg2yg22" path="res://Audio/rain-sound-188158.mp3" id="4_wfncx"]
 [ext_resource type="Texture2D" uid="uid://cf1udjbgp35n1" path="res://UI/abilityIcons/Wind.png" id="5_d1mok"]
 [ext_resource type="Texture2D" uid="uid://bfjs6wfiutnar" path="res://UI/abilityIcons/quake.png" id="6_frndh"]
+[ext_resource type="AudioStream" uid="uid://61co05ony8r3" path="res://Audio/strong-howling-wind-132281.mp3" id="6_h6e3m"]
 [ext_resource type="Texture2D" uid="uid://dwopqcne3ai2t" path="res://UI/abilityIcons/holyland.png" id="7_5kjy4"]
 [ext_resource type="Texture2D" uid="uid://dbjwinjc16s3i" path="res://TileSet/Resources/Rotate.png" id="9_3h1ol"]
 [ext_resource type="Texture2D" uid="uid://bdwkfb2p451rx" path="res://UI/resourceSprites/ui.png" id="9_ssvgr"]
@@ -71,6 +73,10 @@ icon = ExtResource("4_jcktn")
 flat = true
 expand_icon = true
 
+[node name="RainAudio" type="AudioStreamPlayer2D" parent="ActionUI/HBoxContainer/RainAction"]
+unique_name_in_owner = true
+stream = ExtResource("4_wfncx")
+
 [node name="WindAction" type="Control" parent="ActionUI/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
@@ -91,6 +97,10 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_agxm3")
 icon = ExtResource("5_d1mok")
 flat = true
 expand_icon = true
+
+[node name="WindAudio" type="AudioStreamPlayer2D" parent="ActionUI/HBoxContainer/WindAction"]
+unique_name_in_owner = true
+stream = ExtResource("6_h6e3m")
 
 [node name="QuakeAction" type="Control" parent="ActionUI/HBoxContainer"]
 layout_mode = 2

@@ -29,6 +29,9 @@ var holy_land
 var tree_gridx = 36
 var tree_gridy = 24
 
+var power : int
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for x in grid_size:
@@ -142,26 +145,19 @@ func apply_hover_effect(tile):
 			hover.set_cell(Vector2(tile.x + 2,tile.y - 2),0,Vector2(2,0))
 			hover.set_cell(Vector2(tile.x - 2,tile.y - 2),0,Vector2(1,0))
 	if Input.is_action_just_pressed("SummonWeather"):
-		if Global.winter:
-			apply_to_raiders(tile)
-			encourage_building(tile)
-			affect_resources(tile)
-		else:
-			apply_to_raiders(tile)
-			affect_resources(tile)
-			encourage_building(tile)
+		power = world.power
+		apply_to_raiders(tile)
+		affect_resources(tile)
+		encourage_building(tile)
 	pass
 	
 	
 func encourage_building(tile : Vector2i):
 	var used_tiles = get_used_tiles()
-	var power = world.power
 	world.power = 0
-	print(power)
 	if !holy_land.has(tile) and power != 4 and power != 5:
 		return
 	if too_close_to_shrine():
-		print("wow")
 		return
 	match power:
 		0:
@@ -175,8 +171,6 @@ func encourage_building(tile : Vector2i):
 						continue
 					if holy_land.has(Vector2i(x,y)) and !build_used.has(Vector2i(x,y)):
 						farm.set_cell(Vector2(x,y),1,Vector2(0,4))
-			if Global.winter:
-				affect_resources_winter(tile,power)
 		2:
 			var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
 			build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
@@ -190,8 +184,6 @@ func encourage_building(tile : Vector2i):
 					if !holy_land.has(Vector2i(x,y)) or used_tiles.has(Vector2i(x,y)):
 						return
 			grass.set_cell(tile,2,Vector2i(0,3),4)
-			if Global.winter:
-				affect_resources_winter(tile,power)
 		3:
 			var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
 			build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
@@ -235,9 +227,11 @@ func affect_resources(tile) -> void:
 	var tree_used = tree.get_used_cells_by_id(1,Vector2i(0,0))
 	tree_used.append_array(tree.get_used_cells_by_id(1,Vector2i(1,0)))
 	build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),5))
-	match world.power:
+	match power:
 		1:
+			Global.faith -= 5
 			if Global.winter:
+				affect_resources_winter(tile)
 				return
 			for x in range(tile.x -1,tile.x+2):
 				for y in range(tile.y-1,tile.y+2):
@@ -250,7 +244,9 @@ func affect_resources(tile) -> void:
 							return
 						farm.set_cell(Vector2i(x,y),1,tile_atlas,curWet + 1)
 		2:
+			Global.faith -= 5
 			if Global.winter:
+				affect_resources_winter(tile)
 				return
 			var farm_in_range : int = 0
 			var non_farm : int
@@ -271,6 +267,7 @@ func affect_resources(tile) -> void:
 			for i in range(farm_in_range):
 				Global.seeds += 3
 		3:
+			Global.faith -= 10
 			var stone_world = stone.get_used_cells()
 			var ore_spots : Array
 			for x in range(tile.x -1,tile.x+2):
@@ -300,6 +297,52 @@ func affect_resources(tile) -> void:
 				else:
 					stone.set_cell(cell,0,Vector2i(1,1))
 
+# Affect continued
+func affect_resources_winter(tile):
+	#await get_tree().create_timer(.4).timeout
+	var farm_used = farm.get_used_cells()
+	var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
+	var tree_used = tree.get_used_cells_by_id(1,Vector2i(0,0))
+	tree_used.append_array(tree.get_used_cells_by_id(1,Vector2i(1,0)))
+	build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),5))
+	match power:
+		1:
+			apply_cold(tile)
+			for x in range(tile.x -1,tile.x+2):
+				for y in range(tile.y-1,tile.y+2):
+					if farm_used.has(Vector2i(x,y)):
+						var tile_data : TileData = farm.get_cell_tile_data(Vector2i(x,y))
+						var tile_atlas : Vector2i = farm.get_cell_atlas_coords(Vector2i(x,y))
+						var curWet : int = tile_data.get_custom_data("wet")
+						var rand : int = randi() % 10
+						if rand >= 2:
+							farm.set_cell(Vector2i(x,y),-1)
+						else:
+							if curWet + 1 > 2:
+								farm.set_cell(Vector2i(x,y),1,tile_atlas,curWet)
+							else:
+								farm.set_cell(Vector2i(x,y),1,tile_atlas,curWet + 1)
+		2:
+			apply_cold(tile)
+			var farm_in_range : int = 0
+			var non_farm : int
+			var tree_in_range : bool
+			for x in range(tile.x,tile.x+2):
+				for y in range(tile.y-1,tile.y + 1):
+					if build_used.has(Vector2i(x,y)):
+						continue
+					if farm_used.has(Vector2i(x,y)):
+						farm_in_range += 1
+						
+					var tile_world = hover.map_to_local(Vector2i(x,y))
+					tile_world = tree.local_to_map(tile_world)
+					if tree_used.has(tile_world):
+						tree_in_range = true
+			if tree_in_range:
+				plant_trees(tile)
+			for i in range(farm_in_range):
+				Global.seeds += 1
+
 func apply_to_raiders(tile):
 	var enemies_check = get_tree().get_first_node_in_group("ENEMY")
 	if !is_instance_valid(enemies_check):
@@ -320,7 +363,6 @@ func apply_to_raiders(tile):
 		3: 
 			var killed = 0
 			for unit in enemies:
-				print("ok")
 				if killed >= 3:
 					return
 				if unit.global_position.distance_to(map_to_local(tile)) < 32:
@@ -359,7 +401,6 @@ func _on_seed_planted(cell) -> void:
 		return
 	var curWet : int = get_water_of_cell(cell)
 	var phase_time : float = get_grow_time(cell)
-	print(phase_time)
 	# grow
 	#var growingTile = farm.get_cell_tile_data(tileCoords)
 	await get_tree().create_timer(phase_time).timeout
@@ -369,7 +410,6 @@ func _on_seed_planted(cell) -> void:
 	phase_time = get_grow_time(cell)
 	curWet = get_water_of_cell(cell)
 	farm.set_cell(cell,1,Vector2i(2,4),curWet)
-	print(phase_time)
 	
 	await get_tree().create_timer(phase_time).timeout
 	tile_data = farm.get_cell_tile_data(cell)
@@ -378,7 +418,6 @@ func _on_seed_planted(cell) -> void:
 	phase_time = get_grow_time(cell)
 	curWet = get_water_of_cell(cell)
 	farm.set_cell(cell,1,Vector2i(3,4),curWet)
-	print(phase_time)
 	
 	await get_tree().create_timer(phase_time).timeout
 	farm.set_cell(cell,1,Vector2i(4,4),curWet)
@@ -506,56 +545,10 @@ func place_forge(tile : Vector2i):
 		for y in range(tile.y-1,tile.y+1):
 			grass.set_cell(Vector2i(x,y),2,Vector2i(0,3),5)
 
-# Affect continued
-func affect_resources_winter(tile, power : int):
-	await get_tree().create_timer(.4).timeout
-	
-	var farm_used = farm.get_used_cells()
-	var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
-	var tree_used = tree.get_used_cells_by_id(1,Vector2i(0,0))
-	tree_used.append_array(tree.get_used_cells_by_id(1,Vector2i(1,0)))
-	build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),5))
-	match power:
-		1:
-			apply_cold(tile)
-			for x in range(tile.x -1,tile.x+2):
-				for y in range(tile.y-1,tile.y+2):
-					if farm_used.has(Vector2i(x,y)):
-						var tile_data : TileData = farm.get_cell_tile_data(Vector2i(x,y))
-						var tile_atlas : Vector2i = farm.get_cell_atlas_coords(Vector2i(x,y))
-						var curWet : int = tile_data.get_custom_data("wet")
-						var rand : int = randi() % 10
-						if rand >= 2:
-							farm.set_cell(Vector2i(x,y),-1)
-						else:
-							if curWet + 1 > 2:
-								farm.set_cell(Vector2i(x,y),1,tile_atlas,curWet)
-							else:
-								farm.set_cell(Vector2i(x,y),1,tile_atlas,curWet + 1)
-		2:
-			apply_cold(tile)
-			var farm_in_range : int = 0
-			var non_farm : int
-			var tree_in_range : bool
-			for x in range(tile.x,tile.x+2):
-				for y in range(tile.y-1,tile.y + 1):
-					if build_used.has(Vector2i(x,y)):
-						continue
-					if farm_used.has(Vector2i(x,y)):
-						farm_in_range += 1
-						
-					var tile_world = hover.map_to_local(Vector2i(x,y))
-					tile_world = tree.local_to_map(tile_world)
-					if tree_used.has(tile_world):
-						tree_in_range = true
-			if tree_in_range:
-				plant_trees(tile)
-			for i in range(farm_in_range):
-				Global.seeds += 1
-
 func apply_cold(tile):
 	var nearby_adults = get_tree().get_nodes_in_group("ADULT")
 	for unit in nearby_adults:
+		print("ok")
 		if unit.global_position.distance_to(grass.map_to_local(tile)) < 50:
 			unit.is_cold = true
 

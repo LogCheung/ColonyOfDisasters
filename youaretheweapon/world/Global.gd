@@ -15,7 +15,7 @@ extends Node
 @export var adults := 0
 @export var children := 0
 @export var builder_slots : Array
-@export var winter : bool = true
+@export var winter : bool = false
 
 var quake_rotate : bool = false
 
