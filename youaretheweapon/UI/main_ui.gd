@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const ALLY_POWER = preload("res://Banner/UI/ally_power.tscn")
+
 @onready var world : Node2D = get_parent()
 @onready var wood: Label = %WoodLabel
 @onready var food: Label = %FoodLabel
@@ -9,25 +11,52 @@ extends CanvasLayer
 @onready var choice_alert: Control = %ChoiceAlert
 @onready var adults: Label = %AdultsLabel
 @onready var child: Label = %ChildLabel
+@onready var stone: Label = %StoneLabel
+@onready var ore: Label = %OreLabel
+@onready var metal: Label = %MetalLabel
+@onready var tools: Label = %ToolsLabel
+#@onready var ally_power: Control = %AllyPower
+
 
 var proceed : int = 3 # none
+var enemy_raid
+var ally_raid 
 
 func _process(_delta: float) -> void: 
-	wood.text = "  " + str(Global.wood)
+	wood.text = " " + str(Global.wood)
 	food.text = " " + str(Global.food)
 	seeds.text = " " + str(Global.seeds)
 	faith.text = " " + str(Global.faith)
 	adults.text = " " + str(Global.adults)
 	child.text = " " + str(Global.children) 
+	stone.text = " " + str(Global.stone)
+	ore.text = " " + str(Global.ore)
+	metal.text = " " + str(Global.metal)
+	tools.text = " " + str(Global.tools)
 	
+	#if world.power == 3:
+		#%Keybind.visible = true
+		#if Input.is_action_just_pressed("Rotate"):
+			#Global.quake_rotate = !Global.quake_rotate
+	#else:
+		#Global.quake_rotate = false
+		#%Keybind.visible = false
+	enemy_raid = get_tree().get_first_node_in_group("ENEMYBANNER")
+	ally_raid = get_tree().get_first_node_in_group("ALLYBANNER")
 	
+	#if ally_raid != null:
+		#ally_power.global_position = ally_raid.global_position
+		#print("lol " + str(ally_power.global_position))
 
 func _on_rain_icon_pressed() -> void:
 	world.power = 1
 
 func _on_build_icon_pressed() -> void:
-	world.power = 5
-
+	world.power = 4
+	
+func _on_quake_icon_pressed() -> void:
+	world.power = 3
+	
 func _on_wind_icon_pressed() -> void:
 	world.power = 2
 
