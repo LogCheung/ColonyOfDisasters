@@ -20,13 +20,14 @@ position = Vector2(0, 0)
 unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(1230, 977)
+position = Vector2(410, 174)
 zoom = Vector2(2, 2)
 limit_left = 0
 limit_top = 0
 limit_right = 1213
 limit_bottom = 1200
 limit_smoothed = true
+position_smoothing_speed = 30.0
 script = ExtResource("4_4sdu6")
 
 [node name="NPCs" type="Node2D" parent="."]

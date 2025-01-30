@@ -2,6 +2,9 @@ extends StaticBody2D
 
 var NPC = preload("res://npcs/npc.tscn")
 
+const HOUSE_SPR = preload("res://TileSet/House/house.png")
+const WINTER_HOUSE_SPR = preload("res://TileSet/House/WinterHouse.png")
+
 @export var slot1 : CharacterBody2D
 @export var slot2 : CharacterBody2D
 
@@ -15,6 +18,11 @@ var NPC = preload("res://npcs/npc.tscn")
 var selected = false
 
 func _process(delta: float) -> void:
+	if Global.winter:
+		%Sprite2D.texture = WINTER_HOUSE_SPR
+	else:
+		%Sprite2D.texture = HOUSE_SPR
+	
 	# check if not damaged
 	check_if_damaged()
 	if Input.is_action_just_pressed("Cancel"):
@@ -45,6 +53,7 @@ func _process(delta: float) -> void:
 			npc.is_child = true
 			npc.global_position = self.bed.global_position
 			get_parent().get_child(3).add_child(npc)
+			mainUi.event_log.text += "\nA child is born"
 			slot1.is_pregnant = true
 			Global.food -= 1
 		else:

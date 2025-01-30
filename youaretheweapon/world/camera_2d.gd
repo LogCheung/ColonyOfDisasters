@@ -4,7 +4,7 @@ extends Camera2D
 @export var SPEED: float = 20.0
 @export var ZOOM_SPEED: float = 20.0
 @export var ZOOM_MARGIN: float = 0.1
-@export var ZOOM_MIN: float = 1.25
+@export var ZOOM_MIN: float = 1.00
 @export var ZOOM_MAX: float = 2.5
 
 var zoomFactor: float = 1.0
@@ -41,26 +41,25 @@ func _process(delta):
 	
 	position.x = lerp(position.x, position.x + inputX * SPEED * zoom.x, SPEED * delta)
 	position.y = lerp(position.y, position.y + inputY * SPEED * zoom.y, SPEED * delta)
-
-#func _input(event: InputEvent) -> void:
-	##input_for_zoom(event)
-	#if abs(zoomPos.x - get_global_mouse_position().x) > ZOOM_MARGIN:
-		#zoomFactor = 1
-	#if abs(zoomPos.y - get_global_mouse_position().y) > ZOOM_MARGIN:
-		#zoomFactor = 1
+	
+func _input(event: InputEvent) -> void:
+	#input_for_zoom(event)
+	if abs(zoomPos.x - get_global_mouse_position().x) > ZOOM_MARGIN:
+		zoomFactor = 1
+	if abs(zoomPos.y - get_global_mouse_position().y) > ZOOM_MARGIN:
+		zoomFactor = 1
 		#
-	#if event is InputEventMouseButton:
-		#if event.is_pressed():
-			#zooming = true
-			#if event.is_action("WheelDown"):
-				#zoomFactor -= 0.01 * ZOOM_SPEED
-				#zoomPos = get_global_mouse_position()
-			#if event.is_action("WheelUp"):
-				#zoomFactor += 0.01 * ZOOM_SPEED
-				#zoomPos = get_global_mouse_position()
-		#else:
-			#zooming = false
-#
-	#if event is InputEventMouse:
-		#mousePos = event.position
-		#mousePosGlobal = get_global_mouse_position()
+	if event is InputEventMouseButton:
+		if event.is_pressed():
+			zooming = true
+			if event.is_action("WheelDown"):
+				zoomFactor -= 0.01 * ZOOM_SPEED
+				zoomPos = get_global_mouse_position()
+			if event.is_action("WheelUp"):
+				zoomFactor += 0.01 * ZOOM_SPEED
+				zoomPos = get_global_mouse_position()
+		else:
+			zooming = false
+	if event is InputEventMouse:
+		mousePos = event.position
+		mousePosGlobal = get_global_mouse_position()

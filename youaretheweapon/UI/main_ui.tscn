@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bvyr1woplcwbb"]
+[gd_scene load_steps=21 format=3 uid="uid://bvyr1woplcwbb"]
 
 [ext_resource type="Script" path="res://UI/main_ui.gd" id="1_nb8ua"]
 [ext_resource type="Texture2D" uid="uid://bi7t22eafglna" path="res://UI/Sprites/HotkeyBox_34x34.png" id="2_xlgpe"]
 [ext_resource type="FontFile" uid="uid://cdgtlu4thtiug" path="res://UI/PressStart2P.ttf" id="4_2oogm"]
 [ext_resource type="Texture2D" uid="uid://b7aeg72sbveul" path="res://UI/abilityIcons/Rain.png" id="4_jcktn"]
+[ext_resource type="Texture2D" uid="uid://dk8ke0bkf5vv" path="res://UI/Sprites/ItemBox_24x24.png" id="4_kb16t"]
 [ext_resource type="AudioStream" uid="uid://6iv8otg2yg22" path="res://Audio/rain-sound-188158.mp3" id="4_wfncx"]
 [ext_resource type="Texture2D" uid="uid://cf1udjbgp35n1" path="res://UI/abilityIcons/Wind.png" id="5_d1mok"]
 [ext_resource type="Texture2D" uid="uid://bfjs6wfiutnar" path="res://UI/abilityIcons/quake.png" id="6_frndh"]
@@ -12,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://dbjwinjc16s3i" path="res://TileSet/Resources/Rotate.png" id="9_3h1ol"]
 [ext_resource type="Texture2D" uid="uid://bdwkfb2p451rx" path="res://UI/resourceSprites/ui.png" id="9_ssvgr"]
 [ext_resource type="Texture2D" uid="uid://c3faj3jvj30m2" path="res://UI/resourceSprites/resources.png" id="9_uo2or"]
+[ext_resource type="Texture2D" uid="uid://8tw3pr7s0ksd" path="res://UI/Sprites/EventLog.png" id="13_vw7v5"]
+[ext_resource type="AudioStream" uid="uid://c1m07vt386ycn" path="res://Audio/Songs/Adventure.mp3" id="14_vpydn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71li2"]
 
@@ -32,7 +35,7 @@ layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -648.0
+offset_top = -141.0
 offset_right = 1152.0
 grow_vertical = 0
 mouse_filter = 2
@@ -44,10 +47,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -163.0
-offset_top = -97.0
-offset_right = 199.0
-offset_bottom = -57.0
+offset_left = -161.5
+offset_top = -91.0
+offset_right = 161.5
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 75
@@ -57,86 +59,176 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="RainBox" type="Sprite2D" parent="ActionUI/HBoxContainer/RainAction"]
-position = Vector2(1, 49)
+position = Vector2(49, 49)
 scale = Vector2(2, 2)
 texture = ExtResource("2_xlgpe")
 
 [node name="RainIcon" type="Button" parent="ActionUI/HBoxContainer/RainAction"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = -23.0
+offset_left = 25.0
 offset_top = 25.0
-offset_right = 23.0
+offset_right = 71.0
 offset_bottom = 71.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_71li2")
 icon = ExtResource("4_jcktn")
 flat = true
 expand_icon = true
 
+[node name="RainDesc" type="Sprite2D" parent="ActionUI/HBoxContainer/RainAction/RainIcon"]
+unique_name_in_owner = true
+position = Vector2(22, -96)
+scale = Vector2(6, 6)
+texture = ExtResource("4_kb16t")
+
+[node name="RainLabel" type="RichTextLabel" parent="ActionUI/HBoxContainer/RainAction/RainIcon"]
+unique_name_in_owner = true
+offset_left = -42.0
+offset_top = -159.0
+offset_right = 86.0
+offset_bottom = -30.0
+theme_override_fonts/normal_font = ExtResource("4_2oogm")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "      Rain
+
+Cost: 5 Faith 
+
+Encourages farm land and can improve growth
+
+Can weaken raiders
+and cause floods
+
+During winter it can cause colds and damage farms
+"
+autowrap_mode = 2
+
 [node name="RainAudio" type="AudioStreamPlayer2D" parent="ActionUI/HBoxContainer/RainAction"]
 unique_name_in_owner = true
+position = Vector2(48, 0)
 stream = ExtResource("4_wfncx")
+volume_db = 5.0
+pitch_scale = 2.0
 
 [node name="WindAction" type="Control" parent="ActionUI/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 
 [node name="WindBox" type="Sprite2D" parent="ActionUI/HBoxContainer/WindAction"]
-position = Vector2(1, 49)
+position = Vector2(49, 49)
 scale = Vector2(2, 2)
 texture = ExtResource("2_xlgpe")
 
 [node name="WindIcon" type="Button" parent="ActionUI/HBoxContainer/WindAction"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = -23.0
+offset_left = 25.0
 offset_top = 25.0
-offset_right = 23.0
+offset_right = 71.0
 offset_bottom = 71.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_agxm3")
 icon = ExtResource("5_d1mok")
 flat = true
 expand_icon = true
 
+[node name="WindDesc" type="Sprite2D" parent="ActionUI/HBoxContainer/WindAction/WindIcon"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(22, -96)
+scale = Vector2(6, 6)
+texture = ExtResource("4_kb16t")
+
+[node name="WindLabel" type="RichTextLabel" parent="ActionUI/HBoxContainer/WindAction/WindIcon"]
+unique_name_in_owner = true
+visible = false
+offset_left = -42.0
+offset_top = -159.0
+offset_right = 86.0
+offset_bottom = -35.0
+theme_override_fonts/normal_font = ExtResource("4_2oogm")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "      Wind
+Cost: 5 Faith
+
+Encourages housing, gathers seeds from farms or plants trees
+
+Can weakean raiders
+
+During winter it can cause colds
+"
+autowrap_mode = 2
+
 [node name="WindAudio" type="AudioStreamPlayer2D" parent="ActionUI/HBoxContainer/WindAction"]
 unique_name_in_owner = true
+position = Vector2(48, 0)
 stream = ExtResource("6_h6e3m")
+volume_db = 2.0
+pitch_scale = 4.0
 
 [node name="QuakeAction" type="Control" parent="ActionUI/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 
 [node name="QuakeBox" type="Sprite2D" parent="ActionUI/HBoxContainer/QuakeAction"]
-position = Vector2(1, 49)
+position = Vector2(49, 49)
 scale = Vector2(2, 2)
 texture = ExtResource("2_xlgpe")
 
 [node name="QuakeIcon" type="Button" parent="ActionUI/HBoxContainer/QuakeAction"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = -23.0
+offset_left = 25.0
 offset_top = 25.0
-offset_right = 23.0
+offset_right = 71.0
 offset_bottom = 71.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_4a1wm")
 icon = ExtResource("6_frndh")
 flat = true
 expand_icon = true
 
+[node name="QuakeDesc" type="Sprite2D" parent="ActionUI/HBoxContainer/QuakeAction/QuakeIcon"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(27, -96)
+scale = Vector2(6, 6)
+texture = ExtResource("4_kb16t")
+
+[node name="QuakeLabel" type="RichTextLabel" parent="ActionUI/HBoxContainer/QuakeAction/QuakeIcon"]
+unique_name_in_owner = true
+visible = false
+offset_left = -37.0
+offset_top = -160.0
+offset_right = 91.0
+offset_bottom = -35.0
+theme_override_fonts/normal_font = ExtResource("4_2oogm")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "   Earthquake
+Cost: 10 Faith
+
+Encourages a forge and can uproot trees for wood
+
+Can destroy and weaken raiders
+
+Brings ore, for tools, up to the ground
+"
+autowrap_mode = 2
+
 [node name="BuildAction" type="Control" parent="ActionUI/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 
 [node name="BuildBox" type="Sprite2D" parent="ActionUI/HBoxContainer/BuildAction"]
-position = Vector2(1, 49)
+position = Vector2(49, 49)
 scale = Vector2(2, 2)
 texture = ExtResource("2_xlgpe")
 
 [node name="BuildIcon" type="Button" parent="ActionUI/HBoxContainer/BuildAction"]
 layout_mode = 0
-offset_left = -23.0
+offset_left = 25.0
 offset_top = 25.0
-offset_right = 23.0
+offset_right = 71.0
 offset_bottom = 71.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7ycbo")
 flat = true
@@ -147,11 +239,38 @@ position = Vector2(23, 23)
 scale = Vector2(1.89, 1.89)
 texture = ExtResource("7_5kjy4")
 
+[node name="BuildDesc" type="Sprite2D" parent="ActionUI/HBoxContainer/BuildAction/BuildIcon"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(32, -96)
+scale = Vector2(6, 6)
+texture = ExtResource("4_kb16t")
+
+[node name="BuildLabel" type="RichTextLabel" parent="ActionUI/HBoxContainer/BuildAction/BuildIcon"]
+unique_name_in_owner = true
+visible = false
+offset_left = -32.0
+offset_top = -160.0
+offset_right = 96.0
+offset_bottom = -33.0
+theme_override_fonts/normal_font = ExtResource("4_2oogm")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "    Holy Land
+Cost: 2 Faith
+
+Designate holy land, where villagers will build what is encouraged.
+
+"
+autowrap_mode = 2
+
 [node name="Resources" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_left = 13.0
+offset_top = 3.0
+offset_right = 1165.0
+offset_bottom = 651.0
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Resources"]
@@ -314,6 +433,21 @@ hframes = 4
 vframes = 4
 frame = 15
 
+[node name="HappyLabel" type="Label" parent="Resources/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_2oogm")
+text = ":"
+horizontal_alignment = 1
+
+[node name="Happy" type="Sprite2D" parent="Resources/VBoxContainer/HappyLabel"]
+position = Vector2(17, 6)
+scale = Vector2(2, 2)
+texture = ExtResource("9_ssvgr")
+hframes = 5
+vframes = 4
+frame = 19
+
 [node name="ChoiceAlert" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -378,31 +512,31 @@ text = "NO
 
 [node name="UnableWarning" type="Control" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -81.0
-offset_top = 43.0
-offset_right = 81.0
-offset_bottom = 136.0
+offset_left = -575.0
+offset_top = 1.0
+offset_right = 575.0
+offset_bottom = 94.0
 grow_horizontal = 2
 
-[node name="Label" type="Label" parent="UnableWarning"]
+[node name="Unable" type="Label" parent="UnableWarning"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -64.0
+offset_left = -125.0
 offset_top = -11.5
-offset_right = 64.0
+offset_right = 211.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "asagsags"
+scale = Vector2(0.75, 0.75)
+text = "Place the shrine to start!"
 label_settings = SubResource("LabelSettings_jithv")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -439,9 +573,51 @@ theme_override_fonts/font = ExtResource("4_2oogm")
 theme_override_font_sizes/font_size = 16
 text = "Rotate"
 
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(112, 6)
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -150.0
+offset_right = 224.0
+grow_vertical = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Control"]
+position = Vector2(112, 86)
+scale = Vector2(2, 2)
+texture = ExtResource("13_vw7v5")
+
+[node name="EventLog" type="RichTextLabel" parent="Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 1
+offset_left = 17.0
+offset_top = 37.0
+offset_right = 395.0
+offset_bottom = 233.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/table_v_separation = 5
+theme_override_fonts/normal_font = ExtResource("4_2oogm")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+fit_content = true
+
+[node name="Song1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_vpydn")
+volume_db = 8.0
+
+[connection signal="mouse_entered" from="ActionUI/HBoxContainer/RainAction/RainIcon" to="." method="_on_rain_icon_mouse_entered"]
+[connection signal="mouse_exited" from="ActionUI/HBoxContainer/RainAction/RainIcon" to="." method="_on_rain_icon_mouse_exited"]
 [connection signal="pressed" from="ActionUI/HBoxContainer/RainAction/RainIcon" to="." method="_on_rain_icon_pressed"]
+[connection signal="mouse_entered" from="ActionUI/HBoxContainer/WindAction/WindIcon" to="." method="_on_wind_icon_mouse_entered"]
+[connection signal="mouse_exited" from="ActionUI/HBoxContainer/WindAction/WindIcon" to="." method="_on_wind_icon_mouse_exited"]
 [connection signal="pressed" from="ActionUI/HBoxContainer/WindAction/WindIcon" to="." method="_on_wind_icon_pressed"]
+[connection signal="mouse_entered" from="ActionUI/HBoxContainer/QuakeAction/QuakeIcon" to="." method="_on_quake_icon_mouse_entered"]
+[connection signal="mouse_exited" from="ActionUI/HBoxContainer/QuakeAction/QuakeIcon" to="." method="_on_quake_icon_mouse_exited"]
 [connection signal="pressed" from="ActionUI/HBoxContainer/QuakeAction/QuakeIcon" to="." method="_on_quake_icon_pressed"]
+[connection signal="mouse_entered" from="ActionUI/HBoxContainer/BuildAction/BuildIcon" to="." method="_on_build_icon_mouse_entered"]
+[connection signal="mouse_exited" from="ActionUI/HBoxContainer/BuildAction/BuildIcon" to="." method="_on_build_icon_mouse_exited"]
 [connection signal="pressed" from="ActionUI/HBoxContainer/BuildAction/BuildIcon" to="." method="_on_build_icon_pressed"]
 [connection signal="pressed" from="ChoiceAlert/Yes" to="." method="_on_yes_pressed"]
 [connection signal="pressed" from="ChoiceAlert/No" to="." method="_on_no_pressed"]

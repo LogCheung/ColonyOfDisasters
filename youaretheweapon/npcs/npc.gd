@@ -27,6 +27,7 @@ enum Job {
 @onready var no_fuel: Sprite2D = $NoFuel
 
 @onready var tileMap : TileMapLayer = get_parent().get_parent().get_child(0)
+@onready var main_ui : CanvasLayer = get_parent().get_parent().get_child(1)
 @onready var treeTiles : TileMapLayer = tileMap.get_child(0)
 @onready var grassTiles : TileMapLayer = tileMap.get_child(1)
 @onready var holyTiles : TileMapLayer = tileMap.get_child(3)
@@ -58,7 +59,7 @@ var plantHarvestTiles : int
 var has_seeds : bool
 
 # Praying
-var satisfaction : float = 50.0
+@export var satisfaction : float = 50.0
 var pray_is_on_cooldown : bool = false
 var did_you_pray_today : bool = false
 
@@ -161,7 +162,10 @@ func _process(delta: float) -> void:
 		no_fuel.visible = true
 		if %ColdTimer.time_left <= 0:
 			%ColdTimer.start()
-		
+	if satisfaction >= 100:
+		satisfaction = 100.0
+	if satisfaction <= 0:
+		satisfaction = 0.0
 	
 	# distance
 	distance_from_target = global_position.distance_to(_target) if _target else 1000000.0
@@ -183,7 +187,6 @@ func _handle_target(delta: float):
 		find_building()
 	if _target == null:
 		_target = null
-		# if it's still looking for food, try to find a new target
 		if looking_for_wood:
 			find_wood()
 		elif looking_for_farm:
@@ -215,7 +218,7 @@ func _handle_target(delta: float):
 				anim.play("plant")
 			return
 	elif did_you_pray_today:
-		if self.global_position.distance_to(_target) <= 15:
+		if self.global_position.distance_to(_target) <= 25:
 			anim.play("pray")
 			return
 	elif is_building:
@@ -340,6 +343,7 @@ func adjust_tree_nav():
 			
 			
 func chopping_tree():
+	%ChopTree.play()
 	var target_tile : TileData = treeTiles.get_cell_tile_data(treeTiles.local_to_map(_target))
 	if not target_tile:
 		find_wood()
@@ -355,8 +359,11 @@ func chopping_tree():
 		treePosits.remove_at(treePosits.find(Vector2i(_target.x,_target.y)))
 	adjust_tree_nav()
 	_target = null
+	await get_tree().create_timer(.9).timeout
+	%ChopTree.stop()
 
 func cutting_stone():
+	%MineStone.play()
 	if _target == null:
 		get_closest_tile(stonePosits)
 		return
@@ -365,10 +372,12 @@ func cutting_stone():
 		return
 	
 	var target_reward = target_tile.get_custom_data("Stone")
+	var target_reward_ore = target_tile.get_custom_data("Ore")
 	var target_health = target_tile.get_custom_data("Health")
 	
 	tool_uses_left -= 2
 	Global.stone = Global.stone + target_reward
+	Global.ore = Global.ore + target_reward_ore
 	stoneTiles.set_cell(stoneTiles.local_to_map(_target),-1)
 	if stonePosits.has(_target):
 		stonePosits.remove_at(stonePosits.find(_target))
@@ -601,7 +610,10 @@ func _on_utility_ai_agent_top_score_action_changed(top_action_id: Variant) -> vo
 			find_shrine()
 		"idle":
 			is_wander = clear_actions_and_set_current(true)
-			wander()
+			if is_pregnant:
+				find_bed()
+			else:
+				wander()
 		"find_wood":
 			looking_for_wood = clear_actions_and_set_current(true)
 			find_wood()

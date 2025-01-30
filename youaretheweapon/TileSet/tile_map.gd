@@ -4,6 +4,7 @@ var HOUSE = preload("res://TileSet/House/house.tscn")
 var FORGE = preload("res://TileSet/Forge/forge.tscn")
 var NPC  = preload("res://npcs/npc.tscn")
 var BANNER = preload("res://Banner/banner.tscn")
+var RAIN_ANIM = preload("res://TileSet/PowerAnims/rain_anim.tscn")
 
 @export var total_grow_time : float = 15.0
 
@@ -17,6 +18,8 @@ var BANNER = preload("res://Banner/banner.tscn")
 @onready var tree: TileMapLayer = %TreeTiles
 @onready var stone: TileMapLayer = %Stone
 @onready var road: TileMapLayer = %Road
+@onready var main_ui : CanvasLayer = get_parent().get_child(1)
+@onready var snow: TileMapLayer = %snow
 
 signal seed_planted(cell: Vector2i)
 signal day_is_passed()
@@ -45,6 +48,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	snow.visible = true if Global.winter else false
+	
 	if Input.is_action_just_pressed("ui_accept"):
 		get_tree().reload_current_scene()
 	
@@ -69,14 +74,14 @@ func spawn_resources():
 	var positionsStone : Array
 	for i in range(150):
 		var xcoor = (randi() % int(tree_gridx - 3) + 3)
-		var ycoor = (randi() % int(tree_gridy - 3))
+		var ycoor = (randi() % int(tree_gridy - 1))
 		var grid_pos = Vector2i(xcoor,ycoor)
 		if positionsTree.has(grid_pos):
 			continue
 		positionsTree.append(grid_pos)
 	for i in range(65):
-		var xcoor = (randi() % int(74 - 3) + 3)
-		var ycoor = (randi() % int(35 - 3))
+		var xcoor = (randi() % int(74 - 5) + 3)
+		var ycoor = (randi() % int(35 - 3) + 2)
 		var grid_pos = Vector2i(xcoor,ycoor)
 		var grid_pos_check = stone.map_to_local(grid_pos)
 		grid_pos_check = tree.local_to_map(grid_pos_check)
@@ -144,18 +149,33 @@ func apply_hover_effect(tile):
 			hover.set_cell(Vector2(tile.x + 2,tile.y + 2),0,Vector2(2,1))
 			hover.set_cell(Vector2(tile.x + 2,tile.y - 2),0,Vector2(2,0))
 			hover.set_cell(Vector2(tile.x - 2,tile.y - 2),0,Vector2(1,0))
+	if world.power == 5:
+		main_ui.unable.get_child(0).text = "Pick a location for the shrine to start"
+	else:
+		main_ui.unable.get_child(0).text = "Right Click to Cancel"
+	
+	#main_ui.unable.visible = true
+	if Input.is_action_just_pressed("Cancel") and power != 5:
+		world.power = 0
+		power = 0
+		main_ui.unable.visible = false
+		return
 	if Input.is_action_just_pressed("SummonWeather"):
 		power = world.power
+		main_ui.play_sound(power)
 		apply_to_raiders(tile)
 		affect_resources(tile)
-		encourage_building(tile)
+		main_ui.unable.visible = false
 	pass
 	
 	
 func encourage_building(tile : Vector2i):
 	var used_tiles = get_used_tiles()
 	world.power = 0
+	if power == 0:
+		return
 	if !holy_land.has(tile) and power != 4 and power != 5:
+		main_ui.event_log.text += "\n[color=yellow]Could not build outside holy land[/color]"
 		return
 	if too_close_to_shrine():
 		return
@@ -175,22 +195,27 @@ func encourage_building(tile : Vector2i):
 			var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
 			build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
 			if house_too_close() or forge_too_close():
+				main_ui.event_log.text += "\n[color=yellow]Too close to other building[/color]"
 				return
 			for cell in build_used:
 				if tile.distance_to(cell) < 3:
+					main_ui.event_log.text += "\n[color=yellow]Too close to other building[/color]"
 					return
 			for x in range(tile.x,tile.x+2):
 				for y in range(tile.y-1,tile.y + 1):
 					if !holy_land.has(Vector2i(x,y)) or used_tiles.has(Vector2i(x,y)):
+						main_ui.event_log.text += "\n[color=yellow]Obstruction in the way[/color]"
 						return
 			grass.set_cell(tile,2,Vector2i(0,3),4)
 		3:
 			var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
 			build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
 			if house_too_close() or forge_too_close():
+				main_ui.event_log.text += "\n[color=yellow]Too close to other building[/color]"
 				return
 			for cell in build_used:
 				if tile.distance_to(cell) < 3:
+					main_ui.event_log.text += "\n[color=yellow]Too close to other building[/color]"
 					return
 			for x in range(tile.x -1,tile.x+2):
 				for y in range(tile.y-1,tile.y + 1):
@@ -206,6 +231,7 @@ func encourage_building(tile : Vector2i):
 					grass.set_cell(Vector2i(x,y),2,Vector2i(0,3),1)
 					holy.set_cell(Vector2i(x,y),2,Vector2i(0,0,))
 		5:
+			main_ui.song1.play()
 			var road_tiles : Array
 			var spawned : int
 			for x in range(tile.x -2,tile.x+3):
@@ -217,9 +243,9 @@ func encourage_building(tile : Vector2i):
 						world.get_child(3).add_child(npc)
 						spawned += 1
 			road.set_cells_terrain_connect(road_tiles,0,1)
+			snow.set_cells_terrain_connect(road_tiles,0,1)
 			holy.set_cell(tile,3,Vector2i(0,0))
 			grass.set_cell(tile,2,Vector2i(0,3),5)
-			
 	
 func affect_resources(tile) -> void:
 	var farm_used = farm.get_used_cells()
@@ -229,7 +255,15 @@ func affect_resources(tile) -> void:
 	build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),5))
 	match power:
 		1:
+			if Global.faith < 5:
+				main_ui.event_log.text += "\n[color=yellow]Not enough faith![/color]"
+				return
 			Global.faith -= 5
+			var powerA : AnimatedSprite2D = RAIN_ANIM.instantiate()
+			powerA.power = power
+			powerA.global_position = grass.map_to_local(tile)
+			get_parent().add_child(powerA)
+			await powerA.animation_finished
 			if Global.winter:
 				affect_resources_winter(tile)
 				return
@@ -244,7 +278,15 @@ func affect_resources(tile) -> void:
 							return
 						farm.set_cell(Vector2i(x,y),1,tile_atlas,curWet + 1)
 		2:
+			if Global.faith < 5:
+				main_ui.event_log.text += "\n[color=yellow]Not enough faith![/color]"
+				return
 			Global.faith -= 5
+			var powerA : AnimatedSprite2D = RAIN_ANIM.instantiate()
+			powerA.power = power
+			powerA.global_position = grass.map_to_local(tile)
+			get_parent().add_child(powerA)
+			await powerA.animation_finished
 			if Global.winter:
 				affect_resources_winter(tile)
 				return
@@ -267,7 +309,15 @@ func affect_resources(tile) -> void:
 			for i in range(farm_in_range):
 				Global.seeds += 3
 		3:
+			if Global.faith < 10:
+				main_ui.event_log.text += "\n[color=yellow]Not enough faith![/color]"
+				return
 			Global.faith -= 10
+			var powerA : AnimatedSprite2D = RAIN_ANIM.instantiate()
+			powerA.power = power
+			powerA.global_position = grass.map_to_local(tile)
+			get_parent().add_child(powerA)
+			await powerA.animation_finished
 			var stone_world = stone.get_used_cells()
 			var ore_spots : Array
 			for x in range(tile.x -1,tile.x+2):
@@ -296,6 +346,7 @@ func affect_resources(tile) -> void:
 					stone.set_cell(cell,0,Vector2i(1,0))
 				else:
 					stone.set_cell(cell,0,Vector2i(1,1))
+	encourage_building(tile)
 
 # Affect continued
 func affect_resources_winter(tile):
@@ -363,11 +414,11 @@ func apply_to_raiders(tile):
 		3: 
 			var killed = 0
 			for unit in enemies:
-				if killed >= 3:
+				if killed >= 4:
 					return
 				if unit.global_position.distance_to(map_to_local(tile)) < 32:
 					var rand = randi() % 10
-					if rand < 3:
+					if rand < 5:
 						unit.queue_free()
 						killed += 1
 	pass
@@ -456,6 +507,7 @@ func _on_day_is_passed() -> void:
 
 func initiate_flood(tile):
 	await get_tree().create_timer(.2).timeout
+	main_ui.event_log.text += "\n[color=red]The rain has caused a flood![/color]"
 	for x in range(tile.x -2,tile.x+3):
 		for y in range(tile.y-2,tile.y+3):
 			if farm.get_used_cells().has(Vector2i(x,y)):
@@ -517,6 +569,11 @@ func plant_trees(tile : Vector2i):
 	var tree_used = tree.get_used_cells()
 	var tile_world = grass.map_to_local(tile)
 	var stone_world = stone.get_used_cells().map(stone.map_to_local).map(tree.local_to_map)
+	var roads = road.get_used_cells()
+	var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
+	build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
+	build_used.append_array(roads)
+	build_used.map(grass.map_to_local).map(tree.local_to_map)
 	tile = tree.local_to_map(tile_world)
 	for x in range(tile.x - 1,tile.x+2):
 		for y in range(tile.y-1,tile.y + 2):
@@ -526,6 +583,8 @@ func plant_trees(tile : Vector2i):
 			else:
 				if planted >= 3:
 					break
+			if build_used.has(Vector2i(x,y)):
+				return
 			if !tree_used.has(Vector2i(x,y)) and randi() % 6 <= 2 and !stone_world.has(Vector2i(x,y)):
 				tree.set_cell(Vector2i(x,y),1,Vector2i(3,0))
 				planted += 1
@@ -548,7 +607,6 @@ func place_forge(tile : Vector2i):
 func apply_cold(tile):
 	var nearby_adults = get_tree().get_nodes_in_group("ADULT")
 	for unit in nearby_adults:
-		print("ok")
 		if unit.global_position.distance_to(grass.map_to_local(tile)) < 50:
 			unit.is_cold = true
 

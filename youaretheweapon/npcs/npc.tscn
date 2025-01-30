@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://bf2cwhcpu8asq"]
+[gd_scene load_steps=50 format=3 uid="uid://bf2cwhcpu8asq"]
 
 [ext_resource type="Script" path="res://npcs/npc.gd" id="1_2tusr"]
 [ext_resource type="Texture2D" uid="uid://h6q3cd3vjjjd" path="res://npcs/player.png" id="1_mcp0x"]
@@ -9,6 +9,8 @@
 [ext_resource type="Script" path="res://addons/utility_ai/considerations/aggregation.gd" id="7_xw3t2"]
 [ext_resource type="PackedScene" uid="uid://d0dhe2lv3x4u3" path="res://npcs/debug/utility_debug.tscn" id="8_gu8ci"]
 [ext_resource type="Texture2D" uid="uid://cjj04ytgbldnk" path="res://npcs/NoHouse.png" id="9_eul7w"]
+[ext_resource type="AudioStream" uid="uid://b1ouitg5476y1" path="res://Audio/npcSFX/chopping-logs-73222.mp3" id="10_mgisr"]
+[ext_resource type="AudioStream" uid="uid://ncoe63gsp67t" path="res://Audio/npcSFX/metal-hit-16-193282.mp3" id="11_e6nyp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_asifn"]
 radius = 5.0
@@ -695,6 +697,20 @@ frame = 2
 unique_name_in_owner = true
 wait_time = 10.0
 one_shot = true
+
+[node name="ChopTree" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_mgisr")
+volume_db = 1.0
+pitch_scale = 1.75
+max_distance = 175.0
+
+[node name="MineStone" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("11_e6nyp")
+volume_db = 0.5
+pitch_scale = 1.5
+max_distance = 175.0
 
 [connection signal="day_passed" from="." to="." method="_on_day_passed"]
 [connection signal="top_score_action_changed" from="UtilityAiAgent" to="." method="_on_utility_ai_agent_top_score_action_changed"]

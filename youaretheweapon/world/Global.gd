@@ -16,6 +16,7 @@ extends Node
 @export var children := 0
 @export var builder_slots : Array
 @export var winter : bool = false
+@export var satisfaction : float
 
 var quake_rotate : bool = false
 
@@ -36,5 +37,9 @@ func _process(delta: float) -> void:
 		Global.seed = 0
 	if Global.faith <= 0:
 		Global.faith = 0
-		
-		
+	
+	if get_tree().get_first_node_in_group("ADULT") != null:
+		var sum : float = 0.0
+		for unit in get_tree().get_nodes_in_group("ADULT"):
+			sum += unit.satisfaction
+		Global.satisfaction = roundf(sum / (1.0 * get_tree().get_nodes_in_group("ADULT").size()))

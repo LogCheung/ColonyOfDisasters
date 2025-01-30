@@ -60,6 +60,24 @@ func _process(_delta: float) -> void:
 	assign_age()
 	assign_workplace()
 	handle_builders()
+	handle_alerts()
+func handle_alerts():
+	if Global.food < 10:
+		if main_ui.event_log.text.find("Food reserves are low!") == -1:
+			main_ui.event_log.text += "\n[color=red]Food reserves are low![/color]"
+	if Global.wood < 10:
+		if main_ui.event_log.text.find("Wood reserves are low!") == -1:
+			main_ui.event_log.text += "\n[color=red]Wood reserves are low![/color]"
+	if Global.tools < 10:
+		if main_ui.event_log.text.find("Tool reserves are low!") == -1:
+			main_ui.event_log.text += "\n[color=red]Tool reserves are low![/color]"
+	if days_until_raid == 10:
+		if main_ui.event_log.text.find("Raiders arrive in 10 days!") == -1:
+			main_ui.event_log.text += "\n[color=yellow]Raiders arrive in 10 days![/color]"
+	if days_until_raid == 10:
+		if main_ui.event_log.text.find("Raiders approaching from the south!") == -1:
+			main_ui.event_log.text += "\n[color=red]Raiders approaching from the south![/color]"
+	pass
 func handle_builders():
 	var house_build = grassMap.get_used_cells_by_id(2,Vector2i(0,3),4)
 	var forge_build = grassMap.get_used_cells_by_id(2,Vector2i(0,3),6)
@@ -181,7 +199,6 @@ func signal_day_passed():
 		
 		days_until_raid = PEACE_DAYS
 		
-	print(Global.day)
 	if days_until_winter <= 0 and !Global.winter:
 		winter_days = WINTER_DAYS
 		Global.winter = true
@@ -194,8 +211,6 @@ func signal_day_passed():
 		days_until_winter -= 1
 	elif Global.winter:
 		winter_days -= 1
-	
-	print(str(Global.day) + " : " + str(Global.winter))
 
 func _on_hour_timer_timeout() -> void:
 	Global.hour += 1
