@@ -3,9 +3,9 @@ extends Node2D
 const ENEMY = preload("res://Banner/Raider/raider.tscn")
 const ENEMY_BANNER = preload("res://Banner/enemy_banner.tscn")
 
-const NON_WINTER_DAYS : int = 9
-const WINTER_DAYS : int = 5
-const PEACE_DAYS : int = 19
+const NON_WINTER_DAYS : int = 4
+const WINTER_DAYS : int = 3
+const PEACE_DAYS : int = 9
 
 @export var power = Power.NONE
 enum Power{
@@ -71,10 +71,10 @@ func handle_alerts():
 	if Global.tools < 10:
 		if main_ui.event_log.text.find("Tool reserves are low!") == -1:
 			main_ui.event_log.text += "\n[color=red]Tool reserves are low![/color]"
-	if days_until_raid == 10:
+	if days_until_raid == 5:
 		if main_ui.event_log.text.find("Raiders arrive in 10 days!") == -1:
-			main_ui.event_log.text += "\n[color=yellow]Raiders arrive in 10 days![/color]"
-	if days_until_raid == 10:
+			main_ui.event_log.text += "\n[color=yellow]Raiders arrive in 5 days![/color]"
+	if days_until_raid == 0:
 		if main_ui.event_log.text.find("Raiders approaching from the south!") == -1:
 			main_ui.event_log.text += "\n[color=red]Raiders approaching from the south![/color]"
 	pass

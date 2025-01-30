@@ -192,6 +192,7 @@ func encourage_building(tile : Vector2i):
 					if holy_land.has(Vector2i(x,y)) and !build_used.has(Vector2i(x,y)):
 						farm.set_cell(Vector2(x,y),1,Vector2(0,4))
 		2:
+			var shrine_tile = holy.get_used_cells_by_id(3,Vector2i(0,0))[0]
 			var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
 			build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
 			if house_too_close() or forge_too_close():
@@ -207,6 +208,7 @@ func encourage_building(tile : Vector2i):
 						main_ui.event_log.text += "\n[color=yellow]Obstruction in the way[/color]"
 						return
 			grass.set_cell(tile,2,Vector2i(0,3),4)
+			build_roads(shrine_tile,tile)
 		3:
 			var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
 			build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
@@ -422,6 +424,42 @@ func apply_to_raiders(tile):
 						unit.queue_free()
 						killed += 1
 	pass
+
+func build_roads(start,end):
+	var posits : Array
+	var usedTiles : Array
+	usedTiles.append_array(tree.get_used_cells().map(tree.map_to_local).map(road.local_to_map))
+	usedTiles.append_array(stone.get_used_cells().map(stone.map_to_local).map(road.local_to_map))
+	var roads = road.get_used_cells()
+	var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
+	build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
+	build_used.append_array(roads)
+	usedTiles.append_array(build_used)
+	var modifier : int
+	if (start.y < end.y):
+		modifier = 1
+	else:
+		modifier = -1
+							# - 2        # + 1
+	for row in range(start.y, end.y, modifier):
+		var offset = 0
+		while usedTiles.has(Vector2i(start.x + offset, row)):
+			offset += 1
+			posits.append(Vector2i(start.x + offset, row - 1))
+		posits.append(Vector2(start.x + offset,row))
+		
+	if (start.x < end.x):
+		modifier = 1
+	else:
+		modifier = -1
+							# - 1       # + 3
+	for col in range(start.x, end.x, modifier):        
+		var offset = 0
+		while usedTiles.has(Vector2i(col, end.y)):
+			continue  
+		posits.append(Vector2(col,end.y))
+		
+	road.set_cells_terrain_connect(posits,0,1)
 
 func get_used_tiles() -> Array:
 	var farm_used = farm.get_used_cells()

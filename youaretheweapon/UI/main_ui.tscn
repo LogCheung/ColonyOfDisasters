@@ -77,12 +77,15 @@ expand_icon = true
 
 [node name="RainDesc" type="Sprite2D" parent="ActionUI/HBoxContainer/RainAction/RainIcon"]
 unique_name_in_owner = true
+visible = false
 position = Vector2(22, -96)
 scale = Vector2(6, 6)
 texture = ExtResource("4_kb16t")
 
 [node name="RainLabel" type="RichTextLabel" parent="ActionUI/HBoxContainer/RainAction/RainIcon"]
 unique_name_in_owner = true
+visible = false
+layout_mode = 0
 offset_left = -42.0
 offset_top = -159.0
 offset_right = 86.0
@@ -141,6 +144,7 @@ texture = ExtResource("4_kb16t")
 [node name="WindLabel" type="RichTextLabel" parent="ActionUI/HBoxContainer/WindAction/WindIcon"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 0
 offset_left = -42.0
 offset_top = -159.0
 offset_right = 86.0
@@ -197,6 +201,7 @@ texture = ExtResource("4_kb16t")
 [node name="QuakeLabel" type="RichTextLabel" parent="ActionUI/HBoxContainer/QuakeAction/QuakeIcon"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 0
 offset_left = -37.0
 offset_top = -160.0
 offset_right = 91.0
@@ -249,6 +254,7 @@ texture = ExtResource("4_kb16t")
 [node name="BuildLabel" type="RichTextLabel" parent="ActionUI/HBoxContainer/BuildAction/BuildIcon"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 0
 offset_left = -32.0
 offset_top = -160.0
 offset_right = 96.0
