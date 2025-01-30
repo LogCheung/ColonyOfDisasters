@@ -5,10 +5,10 @@ var duration: float = .65
 var speed: float = PI / 3
 
 
-func show_value(value: int, crit: bool):
+func show_value(value: int, resource : String):
 	scale = Vector2(.75,.75)
 	var tween = create_tween()
-	text = str(value)
+	text = resource + "(" + str(value) + ")" 
 	pivot_offset = size / 6
 	var movement = travel.rotated(randi_range(-speed / 2, speed / 2))
 	

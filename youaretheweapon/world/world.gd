@@ -43,7 +43,7 @@ func _ready() -> void:
 	$HourTimer.wait_time = 2.5 # Global.total_day_time / 24
 	
 	days_until_winter = NON_WINTER_DAYS
-	days_until_raid = PEACE_DAYS
+	days_until_raid = 1 # PEACE_DAYS
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("test"):
@@ -103,6 +103,8 @@ func handle_builders():
 				continue
 func assign_jobs() -> void:
 	for unit in Global.builder_slots:
+		if !is_instance_valid(unit):
+			continue
 		if !unit.is_laborer:
 			Global.builder_slots.remove_at(Global.builder_slots.find(unit))
 	for unit in units:

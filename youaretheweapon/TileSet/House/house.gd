@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 	if !selected:
 		pass
 	elif mainUi.proceed == 0:
-		if !Global.food >= 1:
+		if !Global.food >= 2:
 			mainUi.proceed = 3
 			return
 		# if yes
@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 			get_parent().get_child(3).add_child(npc)
 			mainUi.event_log.text += "\nA child is born"
 			slot1.is_pregnant = true
-			Global.food -= 1
+			Global.food -= 2
 		else:
 			# warn them on unable warning label
 			pass
@@ -77,6 +77,6 @@ func check_if_damaged():
 
 func _on_button_pressed() -> void:
 	# choice label is child 0, button is child 1
-	mainUi.choice_alert.get_child(0).text = "Give birth to child? \nOne person will be unable to work\n 1 Food Required\nProceed?"
-	mainUi.choice_alert.visible = true
+	%ChoiceAlert.get_child(0).text = "Give birth to child? \nOne person will be unable to work\n 1 Food Required\nProceed?"
+	%ChoiceAlert.visible = true
 	$Button.visible = false

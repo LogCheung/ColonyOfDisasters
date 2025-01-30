@@ -436,40 +436,48 @@ func build_roads(start,end):
 	build_used.append_array(roads)
 	usedTiles.append_array(build_used)
 	var modifier : int
+	var xmodifier : int
+	var ymodifier : int
 	if (start.y < end.y):
-		modifier = 1
+		ymodifier = 1
 	else:
-		modifier = -1
+		ymodifier = -1
 							# - 2        # + 1
-	for row in range(start.y, end.y, modifier):
+	for row in range(start.y, end.y +(ymodifier * ymodifier), ymodifier):
 		var offset = 0
-		while usedTiles.has(Vector2i(start.x + offset, row)):
-			offset += 1
-			posits.append(Vector2i(start.x + offset, row - 1))
-		posits.append(Vector2(start.x + offset,row))
+		#while usedTiles.has(Vector2i(start.x + offset, row)):
+			#offset += 1
+			#posits.append(Vector2i(start.x + offset, row - 1))
+		posits.append(Vector2(start.x,row))
 		
 	if (start.x < end.x):
-		modifier = 1
+		xmodifier = 1
 	else:
-		modifier = -1
+		xmodifier = -1
+	if (start.y < end.y):
+		ymodifier = -1
+	else:
+		ymodifier = 1
 							# - 1       # + 3
-	for col in range(start.x, end.x, modifier):        
+	for col in range(start.x, end.x + (2 * xmodifier), xmodifier):        
 		var offset = 0
-		while usedTiles.has(Vector2i(col, end.y)):
-			continue  
-		posits.append(Vector2(col,end.y))
-		
+		#while usedTiles.has(Vector2i(col, end.y + modifier)):
+			#continue  
+		posits.append(Vector2(col,end.y + (ymodifier * ymodifier)))
+	print(posits)
 	road.set_cells_terrain_connect(posits,0,1)
 
 func get_used_tiles() -> Array:
 	var farm_used = farm.get_used_cells()
 	var soon_build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
 	var tiles_with_building = grass.get_used_cells_by_id(2,Vector2i(0,3),5)
+	var roads = road.get_used_cells()
 	
 	var used_tiles : Array
 	used_tiles.append_array(farm_used)
 	used_tiles.append_array(soon_build_used)
 	used_tiles.append_array(tiles_with_building)
+	used_tiles.append_array(roads)
 	return used_tiles
 
 func too_close_to_shrine() -> bool:

@@ -328,7 +328,6 @@ speed = 40
 [node name="Flip" type="Node2D" parent="."]
 
 [node name="body" type="Sprite2D" parent="Flip"]
-position = Vector2(0, -9)
 texture = ExtResource("1_mcp0x")
 hframes = 6
 vframes = 10
