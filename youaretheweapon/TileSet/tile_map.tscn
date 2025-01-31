@@ -411,12 +411,14 @@ texture = ExtResource("2_dx1eb")
 texture_region_size = Vector2i(32, 48)
 0:0/0 = 0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_nrkyo")
-0:0/0/custom_data_0 = 6
+0:0/0/custom_data_0 = 3
 0:0/0/custom_data_1 = 5
+0:0/0/custom_data_2 = "oak"
 1:0/0 = 0
 1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_nrkyo")
-1:0/0/custom_data_0 = 6
+1:0/0/custom_data_0 = 3
 1:0/0/custom_data_1 = 5
+1:0/0/custom_data_2 = "pine"
 3:0/0 = 0
 2:0/0 = 0
 
@@ -427,6 +429,8 @@ custom_data_layer_0/name = "Wood"
 custom_data_layer_0/type = 2
 custom_data_layer_1/name = "Health"
 custom_data_layer_1/type = 2
+custom_data_layer_2/name = "Tree"
+custom_data_layer_2/type = 4
 sources/0 = SubResource("TileSetAtlasSource_a5vli")
 sources/1 = SubResource("TileSetAtlasSource_203ks")
 
@@ -608,17 +612,17 @@ margins = Vector2i(64, 0)
 texture_region_size = Vector2i(16, 24)
 0:0/next_alternative_id = 2
 0:0/0 = 0
-0:0/0/custom_data_0 = 5
+0:0/0/custom_data_0 = 3
 0:0/0/custom_data_1 = 6
 0:0/1 = 1
 0:0/1/modulate = Color(0.227451, 1, 1, 1)
 0:1/0 = 0
-0:1/0/custom_data_0 = 5
+0:1/0/custom_data_0 = 3
 0:1/0/custom_data_1 = 6
 1:0/0 = 0
-1:0/0/custom_data_2 = 6
+1:0/0/custom_data_2 = 4
 1:1/0 = 0
-1:1/0/custom_data_2 = 6
+1:1/0/custom_data_2 = 4
 
 [sub_resource type="TileSet" id="TileSet_kj6gr"]
 tile_size = Vector2i(16, 32)

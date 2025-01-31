@@ -55,6 +55,8 @@ func handle_target(delta):
 		self.look_at(_target)
 	
 	for unit in soldiers:
+		if !is_instance_valid(unit):
+			continue
 		if !initial_form:
 			break
 		if unit.is_in_position == false:
@@ -63,6 +65,10 @@ func handle_target(delta):
 	%EnemyPower.visible = true
 	%EnemyPower.get_child(1).text = str(strength)
 	if self.global_position.distance_to(_target) < from_distance:
+		for unit in soldiers:
+			if !is_instance_valid(unit):
+				continue
+			unit.anim.play("attack")
 		return
 	
 	nav.target_position = _target

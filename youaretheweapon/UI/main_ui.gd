@@ -16,6 +16,7 @@ const ALLY_POWER = preload("res://Banner/UI/ally_power.tscn")
 @onready var metal: Label = %MetalLabel
 @onready var tools: Label = %ToolsLabel
 @onready var happy: Label = %HappyLabel
+@onready var hour: Label = %HourLabel
 
 @onready var wind_audio: AudioStreamPlayer2D = %WindAudio
 @onready var rain_audio: AudioStreamPlayer2D = %RainAudio
@@ -30,7 +31,10 @@ const ALLY_POWER = preload("res://Banner/UI/ally_power.tscn")
 var proceed : int = 3 # none
 var enemy_raid
 var ally_raid 
-
+func _ready() -> void:
+	event_log.text += "Welcome to your colony, use the elements to help your colony thrive"
+	event_log.text += "\n\nStart by designating holy land"
+	event_log.text += "\n\nUse the elements to encourage buildings"
 func _process(_delta: float) -> void: 
 	wood.text = " " + str(Global.wood)
 	food.text = " " + str(Global.food)
@@ -43,8 +47,10 @@ func _process(_delta: float) -> void:
 	metal.text = " " + str(Global.metal)
 	tools.text = " " + str(Global.tools)
 	happy.text = "  " + str(Global.satisfaction) + "%"
+	hour.text = "Hour : " + str(Global.hour) + ":00" 
 	
-	while event_log.get_line_count() > 8:
+	
+	while event_log.get_line_count() > 10:
 		var remove_after : int = event_log.text.findn("\n")
 		event_log.text = event_log.text.substr(remove_after + 1)
 	enemy_raid = get_tree().get_first_node_in_group("ENEMYBANNER")

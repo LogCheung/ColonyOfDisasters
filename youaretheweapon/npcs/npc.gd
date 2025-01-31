@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const TOOL_DURABILITY : float = 20
+const TREE_ANIMS = preload("res://TileSet/DestroyAnims/tree_anims.tscn")
 
 var is_moving = false
 var _target
@@ -133,7 +134,7 @@ func _process(delta: float) -> void:
 	# Smithing
 	has_metal = true if Global.metal >= 2 else false
 	has_ore = true if Global.ore > 0 else false
-	%hasTools.max_value = Global.adults * 1.5
+	%hasTools.max_value = Global.adults * 5
 	
 	# rest or sleep
 	is_resting = true if Global.action_period == 1 else false
@@ -186,6 +187,8 @@ func _handle_target(delta: float):
 	if is_building:
 		find_building()
 	if _target == null:
+		if !is_in_combat:
+			anim.play("idle")
 		_target = null
 		if looking_for_wood:
 			find_wood()
@@ -195,6 +198,12 @@ func _handle_target(delta: float):
 			get_closest_tile(stonePosits)
 		elif marching:
 			go_to_formation()
+		elif is_sleeping:
+			if !anim.is_playing():
+				anim.play("sleep")
+			else:
+				anim.clear_queue()
+				anim.stop()
 		return
 	nav.target_position = _target
 	
@@ -212,7 +221,7 @@ func _handle_target(delta: float):
 			return
 	elif looking_for_farm:
 		if self.global_position.distance_to(_target) <= 4:
-			if grownTiles.has(_target):
+			if grownTiles.has(Vector2i(_target.x,_target.y)):
 				anim.play("harvest")
 			else:
 				anim.play("plant")
@@ -228,6 +237,7 @@ func _handle_target(delta: float):
 	elif is_sleeping:
 		nav.avoidance_enabled = false
 		if home == null:
+			anim.stop()
 			return
 		find_bed()
 		if self.global_position.distance_to(_target) <= 12:
@@ -314,6 +324,11 @@ func move_to(direction, delta):
 		
 	if velocity != Vector2.ZERO:
 		anim.play("walk")
+	else:
+		if !is_in_combat and !is_sleeping:
+			anim.play("idle")
+		#else:
+			#anim.play("walk")
 	move_and_slide()
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
@@ -344,23 +359,38 @@ func adjust_tree_nav():
 			
 func chopping_tree():
 	%ChopTree.play()
-	var target_tile : TileData = treeTiles.get_cell_tile_data(treeTiles.local_to_map(_target))
+	if _target == null:
+		return
+	var tile_init = treeTiles.local_to_map(_target)
+	if !treeTiles.get_used_cells().has(tile_init):
+		return
+	var target_tile : TileData = treeTiles.get_cell_tile_data(tile_init)
 	if not target_tile:
 		find_wood()
 		return
 	
 	var target_reward = target_tile.get_custom_data("Wood")
 	var target_health = target_tile.get_custom_data("Health")
+	var target_tree = target_tile.get_custom_data("Tree")
+	await get_tree().create_timer(.9).timeout
+	if !treePosits.has(Vector2i(_target.x,_target.y)):
+		return
 	
+	var animT = TREE_ANIMS.instantiate()
+	animT.global_position = _target
+	get_parent().get_parent().add_child(animT)
 	tool_uses_left -= 2
 	Global.wood = Global.wood + target_reward
 	treeTiles.set_cell(treeTiles.local_to_map(_target),-1)
 	if treePosits.has(Vector2i(_target.x,_target.y)):
 		treePosits.remove_at(treePosits.find(Vector2i(_target.x,_target.y)))
 	adjust_tree_nav()
-	_target = null
-	await get_tree().create_timer(.9).timeout
+	if target_tree == "oak":
+		animT.play("oak")
+	else:
+		animT.play("pine")
 	%ChopTree.stop()
+	_target = null
 
 func cutting_stone():
 	%MineStone.play()
@@ -500,10 +530,10 @@ func go_pray():
 	if is_child:
 		Global.faith += 1
 	if satisfaction > 85.0:
-		Global.faith += 2
+		Global.faith += 3
 		return
 	
-	Global.faith += 1
+	Global.faith += 2
 	pray_is_on_cooldown = true
 	%PrayCooldown.start()
 
@@ -660,13 +690,13 @@ func _on_eat_timer_timeout() -> void:
 		return
 	if Global.food >= 1:
 		no_food.visible = false
-		satisfaction += 1.25
+		satisfaction += 2.5
 		Global.food -= 1
 		ticks_without_food = 0
 	else:
 		ticks_without_food += 1
 		no_food.visible = true
-		satisfaction -= 1.25
+		satisfaction -= 2.5
 	
 	if ticks_without_food >= 6:
 		# play death animation
@@ -684,7 +714,7 @@ func _on_day_passed() -> void:
 		no_house.visible = true
 		if Global.winter:
 			satisfaction -= 2.5
-		satisfaction -= 5.0
+		satisfaction -= 6.0
 	if home != null:
 		if Global.wood < 1:
 			days_without_warmth += 1
@@ -700,8 +730,11 @@ func _on_day_passed() -> void:
 			if Global.winter:
 				Global.wood -= 1
 			Global.wood -= 1
+			var rand = randi() % 3
+			if rand == 0:
+				Global.wood -= 1
 			days_without_warmth = 0
-			satisfaction += 1.5
+			satisfaction += 2.5
 	if days_without_warmth >= 2:
 		# play death animation
 		clear_roles()

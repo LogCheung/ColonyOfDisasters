@@ -5,6 +5,7 @@ var FORGE = preload("res://TileSet/Forge/forge.tscn")
 var NPC  = preload("res://npcs/npc.tscn")
 var BANNER = preload("res://Banner/banner.tscn")
 var RAIN_ANIM = preload("res://TileSet/PowerAnims/rain_anim.tscn")
+var TREE_ANIMS = preload("res://TileSet/DestroyAnims/tree_anims.tscn")
 
 @export var total_grow_time : float = 15.0
 
@@ -166,6 +167,7 @@ func apply_hover_effect(tile):
 		apply_to_raiders(tile)
 		affect_resources(tile)
 		main_ui.unable.visible = false
+		world.power = 0
 	pass
 	
 	
@@ -208,7 +210,6 @@ func encourage_building(tile : Vector2i):
 						main_ui.event_log.text += "\n[color=yellow]Obstruction in the way[/color]"
 						return
 			grass.set_cell(tile,2,Vector2i(0,3),4)
-			build_roads(shrine_tile,tile)
 		3:
 			var build_used = grass.get_used_cells_by_id(2,Vector2i(0,3),4)
 			build_used.append_array(grass.get_used_cells_by_id(2,Vector2i(0,3),6))
@@ -225,6 +226,10 @@ func encourage_building(tile : Vector2i):
 						return
 			grass.set_cell(tile,2,Vector2i(0,3),6)
 		4:
+			if Global.faith < 2:
+				main_ui.event_log.text += "\n[color=yellow]Not enough faith![/color]"
+				return
+			Global.faith -= 2
 			var shrine_tile = holy.get_used_cells_by_id(3,Vector2i(0,0))[0]
 			for x in range(tile.x -2,tile.x+3):
 				for y in range(tile.y-2,tile.y+3):
@@ -268,6 +273,7 @@ func affect_resources(tile) -> void:
 			await powerA.animation_finished
 			if Global.winter:
 				affect_resources_winter(tile)
+				encourage_building(tile)
 				return
 			for x in range(tile.x -1,tile.x+2):
 				for y in range(tile.y-1,tile.y+2):
@@ -291,6 +297,7 @@ func affect_resources(tile) -> void:
 			await powerA.animation_finished
 			if Global.winter:
 				affect_resources_winter(tile)
+				encourage_building(tile)
 				return
 			var farm_in_range : int = 0
 			var non_farm : int
@@ -327,27 +334,39 @@ func affect_resources(tile) -> void:
 					if holy_land.has(Vector2i(x,y)):
 						continue
 					if build_used.has(Vector2i(x,y)):
-						continue
+						initiate_quake(tile)
 					if farm_used.has(Vector2i(x,y)):
-						farm.set_cell(Vector2i(x,y),-1)
+						initiate_quake(tile)
 					var tile_world = hover.map_to_local(Vector2i(x,y))
 					tile_world = tree.local_to_map(tile_world)
 					if tree_used.has(tile_world):
+						var target_tree = tree.get_cell_tile_data(tile_world).get_custom_data("Tree")
 						tree.set_cell(tile_world,-1)
 						tree_used = tree.get_used_cells_by_id(1,Vector2i(0,0))
 						tree_used.append_array(tree.get_used_cells_by_id(1,Vector2i(1,0)))
-						Global.wood += 6
+						var animT = TREE_ANIMS.instantiate()
+						animT.global_position = tree.map_to_local(tile_world)
+						get_parent().add_child(animT)
+						if target_tree == "oak":
+							animT.play("oak")
+						else:
+							animT.play("pine")
+						Global.wood += 3
 						continue
 					var tile_stone = stone.local_to_map(hover.map_to_local(Vector2i(x,y)))
 					if !stone_world.has(tile_stone):
 						ore_spots.append(tile_stone)
 			for cell in ore_spots:
 				# make random chance to not spawn some
-				var rand2 : int = randi() % 2
+				var rand2 : int = randi() % 4
 				if rand2 == 0:
 					stone.set_cell(cell,0,Vector2i(1,0))
-				else:
+				elif rand2 == 1:
 					stone.set_cell(cell,0,Vector2i(1,1))
+				elif rand2 == 2:
+					stone.set_cell(cell,0,Vector2i(0,0))
+				elif rand2 == 3:
+					stone.set_cell(cell,0,Vector2i(0,1))
 	encourage_building(tile)
 
 # Affect continued
@@ -561,6 +580,17 @@ func initiate_flood(tile):
 			if grass.get_used_cells_by_id(2,Vector2i(0,3),5).has(Vector2i(x,y)):
 				grass.set_cell(Vector2i(x,y),2,Vector2i(0,3),1)
 				
+	pass
+
+func initiate_quake(tile):
+	await get_tree().create_timer(.2).timeout
+	main_ui.event_log.text += "\n[color=red]The quake causes damange![/color]"
+	for x in range(tile.x -1,tile.x+2):
+		for y in range(tile.y-1,tile.y + 1):
+			if farm.get_used_cells().has(Vector2i(x,y)):
+				farm.set_cell(Vector2i(x,y),-1)
+			if grass.get_used_cells_by_id(2,Vector2i(0,3),5).has(Vector2i(x,y)):
+				grass.set_cell(Vector2i(x,y),2,Vector2i(0,3),1)
 	pass
 # Wind
 # -------------------------------------

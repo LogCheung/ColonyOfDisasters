@@ -1,0 +1,109 @@
+[gd_scene load_steps=17 format=3 uid="uid://cyp6g0xcxkkho"]
+
+[ext_resource type="Script" path="res://TileSet/DestroyAnims/tree_anims.gd" id="1_lqi3k"]
+[ext_resource type="Texture2D" uid="uid://hm343jwgrlq4" path="res://TileSet/DestroyAnims/FallingTreeOak.png" id="1_sui2a"]
+[ext_resource type="Texture2D" uid="uid://b7tg53bjtuymy" path="res://TileSet/DestroyAnims/FallingTreePine.png" id="2_fw3na"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5l21b"]
+atlas = ExtResource("1_sui2a")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5efn"]
+atlas = ExtResource("1_sui2a")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44c7b"]
+atlas = ExtResource("1_sui2a")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yivg"]
+atlas = ExtResource("1_sui2a")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqmjh"]
+atlas = ExtResource("1_sui2a")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17pe2"]
+atlas = ExtResource("1_sui2a")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpebd"]
+atlas = ExtResource("2_fw3na")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsy3x"]
+atlas = ExtResource("2_fw3na")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80rg2"]
+atlas = ExtResource("2_fw3na")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h68v8"]
+atlas = ExtResource("2_fw3na")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wiopi"]
+atlas = ExtResource("2_fw3na")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wd5sm"]
+atlas = ExtResource("2_fw3na")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ayj0v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5l21b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5efn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44c7b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3yivg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqmjh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17pe2")
+}],
+"loop": false,
+"name": &"oak",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpebd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tsy3x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80rg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h68v8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wiopi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wd5sm")
+}],
+"loop": false,
+"name": &"pine",
+"speed": 5.0
+}]
+
+[node name="TreeAnims" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_ayj0v")
+animation = &"oak"
+script = ExtResource("1_lqi3k")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

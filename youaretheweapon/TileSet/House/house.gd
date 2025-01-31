@@ -19,9 +19,9 @@ var selected = false
 
 func _process(delta: float) -> void:
 	if Global.winter:
-		%Sprite2D.texture = WINTER_HOUSE_SPR
+		%Sprite2D.animation = "cold"
 	else:
-		%Sprite2D.texture = HOUSE_SPR
+		%Sprite2D.animation = "warm"
 	
 	# check if not damaged
 	check_if_damaged()
@@ -65,6 +65,7 @@ func _process(delta: float) -> void:
 		selected = false
 	else:
 		mainUi.proceed = 3
+
 func check_if_damaged():
 	var building_tiles = grassTiles.get_used_cells_by_id(2,Vector2i(0,3),5)
 	var house_pos = grassTiles.local_to_map(global_position)
@@ -73,10 +74,48 @@ func check_if_damaged():
 			slot1.home = null
 		if slot2 != null:
 			slot2.home = null
-		queue_free()
+		if Global.winter:
+			%Sprite2D.play("cold")
+		else:
+			%Sprite2D.play("warm")
 
 func _on_button_pressed() -> void:
 	# choice label is child 0, button is child 1
-	%ChoiceAlert.get_child(0).text = "Give birth to child? \nOne person will be unable to work\n 1 Food Required\nProceed?"
+	%ChoiceAlert.get_child(0).text = "   Give birth
+
+Cost: 2 Food
+
+One person will be unable to work.
+
+Proceed?"
 	%ChoiceAlert.visible = true
 	$Button.visible = false
+
+
+func _on_yes_pressed() -> void:
+	if !Global.food >= 2:
+		mainUi.proceed = 3
+		return
+	# if yes
+	if !self.slot1.is_pregnant:
+		var npc = NPC.instantiate()
+		npc.is_child = true
+		npc.global_position = self.bed.global_position
+		get_parent().get_child(3).add_child(npc)
+		mainUi.event_log.text += "\nA child is born"
+		slot1.is_pregnant = true
+		Global.food -= 2
+	else:
+		mainUi.event_log.text += "\n[color=yellow]Household already is giving birth[/color]"
+	%ChoiceAlert.visible = false
+	$Button.visible = false
+	selected = false
+
+func _on_no_pressed() -> void:
+	%ChoiceAlert.visible = false
+	$Button.visible = false
+	selected = false
+
+
+func _on_sprite_2d_animation_finished() -> void:
+	queue_free()

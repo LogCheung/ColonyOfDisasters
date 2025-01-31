@@ -40,10 +40,10 @@ var winter_days : int
 var days_until_raid : int
 
 func _ready() -> void:
-	$HourTimer.wait_time = 2.5 # Global.total_day_time / 24
+	$HourTimer.wait_time = Global.total_day_time / 24
 	
 	days_until_winter = NON_WINTER_DAYS
-	days_until_raid = 1 # PEACE_DAYS
+	days_until_raid =  PEACE_DAYS
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("test"):

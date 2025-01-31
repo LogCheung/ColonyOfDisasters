@@ -1,0 +1,981 @@
+[gd_scene load_steps=53 format=3 uid="uid://bf2cwhcpu8asq"]
+
+[ext_resource type="Script" path="res://npcs/npc.gd" id="1_2tusr"]
+[ext_resource type="Texture2D" uid="uid://2e3yqwe7rj33" path="res://npcs/villager.png" id="2_camu1"]
+[ext_resource type="PackedScene" uid="uid://djni7ogohn68i" path="res://hit-hurtboxes/hit_box.tscn" id="3_7ypew"]
+[ext_resource type="Script" path="res://addons/utility_ai/agent/agent.gd" id="3_xr3ir"]
+[ext_resource type="Script" path="res://addons/utility_ai/actions/action.gd" id="4_h3oop"]
+[ext_resource type="Script" path="res://addons/utility_ai/considerations/consideration_from_node.gd" id="5_i7ywe"]
+[ext_resource type="Script" path="res://addons/utility_ai/considerations/aggregation.gd" id="7_xw3t2"]
+[ext_resource type="PackedScene" uid="uid://d0dhe2lv3x4u3" path="res://npcs/debug/utility_debug.tscn" id="8_gu8ci"]
+[ext_resource type="Texture2D" uid="uid://cjj04ytgbldnk" path="res://npcs/NoHouse.png" id="9_eul7w"]
+[ext_resource type="AudioStream" uid="uid://b1ouitg5476y1" path="res://Audio/npcSFX/chopping-logs-73222.mp3" id="10_mgisr"]
+[ext_resource type="AudioStream" uid="uid://ncoe63gsp67t" path="res://Audio/npcSFX/metal-hit-16-193282.mp3" id="11_e6nyp"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_asifn"]
+radius = 5.0
+height = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cobhd"]
+radius = 0.01
+
+[sub_resource type="Animation" id="Animation_4kyhn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Flip/body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flip/body:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_drk1a"]
+resource_name = "attack"
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [24, 25, 26, 25]
+}
+
+[sub_resource type="Animation" id="Animation_ukvfp"]
+resource_name = "build"
+length = 10.0
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(9.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"go_build"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flip/body:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.193726, 0.393726, 0.593726, 0.793726, 0.993726, 1.19373, 1.39373, 1.59373, 1.79373, 1.99373, 2.19373, 2.39373, 2.59373, 2.79373, 2.99373, 3.19373, 3.39373, 3.59373, 3.79373, 3.99373, 4.19373, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8, 9, 9.2, 9.4, 9.6, 9.8, 10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.5937, 11.7937, 11.9937),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_eprh6"]
+resource_name = "chop"
+length = 12.0
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(12),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"chopping_tree"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flip/body:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.193726, 0.393726, 0.593726, 0.793726, 0.993726, 1.19373, 1.39373, 1.59373, 1.79373, 1.99373, 2.19373, 2.39373, 2.59373, 2.79373, 2.99373, 3.19373, 3.39373, 3.59373, 3.79373, 3.99373, 4.19373, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8, 9, 9.2, 9.4, 9.6, 9.8, 10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.5937, 11.7937, 11.9937),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_05f4g"]
+resource_name = "forge"
+length = 3.0
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"make_tool"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flip/body:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.193726, 0.393726, 0.593726, 0.793726, 0.993726, 1.19373, 1.39373, 1.59373, 1.79373, 1.99373, 2.19373, 2.39373, 2.59373, 2.79373, 2.99373, 3.19373, 3.39373, 3.59373, 3.79373, 3.99373, 4.19373, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8, 9, 9.2, 9.4, 9.6, 9.8, 10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.5937, 11.7937, 11.9937),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_n8wm0"]
+resource_name = "harvest"
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"harvest"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flip/body:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.193726, 0.393726, 0.593726, 0.793726, 0.993726, 1.19373, 1.39373, 1.59373, 1.79373, 1.99373, 2.19373, 2.39373, 2.59373, 2.79373, 2.99373, 3.19373, 3.39373, 3.59373, 3.79373, 3.99373, 4.19373, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8, 9, 9.2, 9.4, 9.6, 9.8, 10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.5937, 11.7937, 11.9937),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_u41ek"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_6ldt1"]
+resource_name = "mine"
+length = 12.0
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(11.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"cutting_stone"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flip/body:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.193726, 0.393726, 0.593726, 0.793726, 0.993726, 1.19373, 1.39373, 1.59373, 1.79373, 1.99373, 2.19373, 2.39373, 2.59373, 2.79373, 2.99373, 3.19373, 3.39373, 3.59373, 3.79373, 3.99373, 4.19373, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8, 9, 9.2, 9.4, 9.6, 9.8, 10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.5937, 11.7937, 11.9937),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_11qf5"]
+resource_name = "plant"
+length = 2.0
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"plant_seed"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flip/body:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.193726, 0.393726, 0.593726, 0.793726, 0.993726, 1.19373, 1.39373, 1.59373, 1.79373, 1.99373, 2.19373, 2.39373, 2.59373, 2.79373, 2.99373, 3.19373, 3.39373, 3.59373, 3.79373, 3.99373, 4.19373, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8, 9, 9.2, 9.4, 9.6, 9.8, 10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.5937, 11.7937, 11.9937),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_y5cfh"]
+resource_name = "pray"
+length = 4.0
+step = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"go_pray"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Flip/body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 3.8, 3.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="Animation" id="Animation_cg5ui"]
+resource_name = "smelt"
+length = 3.0
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"make_metal"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flip/body:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.193726, 0.393726, 0.593726, 0.793726, 0.993726, 1.19373, 1.39373, 1.59373, 1.79373, 1.99373, 2.19373, 2.39373, 2.59373, 2.79373, 2.99373, 3.19373, 3.39373, 3.59373, 3.79373, 3.99373, 4.19373, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 6, 6.2, 6.4, 6.6, 6.8, 7, 7.2, 7.4, 7.6, 7.8, 8, 8.2, 8.4, 8.6, 8.8, 9, 9.2, 9.4, 9.6, 9.8, 10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.5937, 11.7937, 11.9937),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_nydi8"]
+resource_name = "walk"
+length = 0.6
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10, 11]
+}
+
+[sub_resource type="Animation" id="Animation_se25j"]
+resource_name = "sleep"
+length = 20.0
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flip/body:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 6), Vector2i(1, 6), Vector2i(2, 6)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7suor"]
+_data = {
+"RESET": SubResource("Animation_4kyhn"),
+"attack": SubResource("Animation_drk1a"),
+"build": SubResource("Animation_ukvfp"),
+"chop": SubResource("Animation_eprh6"),
+"forge": SubResource("Animation_05f4g"),
+"harvest": SubResource("Animation_n8wm0"),
+"idle": SubResource("Animation_u41ek"),
+"mine": SubResource("Animation_6ldt1"),
+"plant": SubResource("Animation_11qf5"),
+"pray": SubResource("Animation_y5cfh"),
+"sleep": SubResource("Animation_se25j"),
+"smelt": SubResource("Animation_cg5ui"),
+"walk": SubResource("Animation_nydi8")
+}
+
+[sub_resource type="Curve" id="Curve_exubw"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.391089, 0), 0.0, 0.0, 0, 0, Vector2(0.410891, 0.626374), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_c4n2b"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_txtey"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_44m0d"]
+_data = [Vector2(0, 0.648352), 0.0, 0.0, 0, 0, Vector2(1, 0.296703), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_noww2"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_665gt"]
+_data = [Vector2(0, 0.252747), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_0o3ak"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_vwkvk"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ffppj"]
+_data = [Vector2(0, 0.846154), 0.0, 0.0, 0, 0, Vector2(0.805263, 0.428571), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.130575, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_ur87n"]
+_data = [Vector2(0, 0), 0.0, 1.10989, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_n5ghs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_35v5n"]
+_data = [Vector2(0, 0.89011), 0.0, 0.0, 0, 0, Vector2(0.851485, 0.637363), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_o8gwj"]
+_data = [Vector2(0, 0.758242), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_82kbq"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_uhqm7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_v0kg1"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4vwlh"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_gwey4"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_7dr4f"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_g5d3w"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_o4w77"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_uitve"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.613861, 0.857143), 0.0634226, 0.0634226, 0, 0, Vector2(0.618812, 0.527472), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_uhi2i"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_nj21r"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_s2not"]
+max_value = 3.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 3), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="npc" type="CharacterBody2D" groups=["ADULT"]]
+z_index = 2
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_2tusr")
+speed = 40
+
+[node name="Flip" type="Node2D" parent="."]
+
+[node name="body" type="Sprite2D" parent="Flip"]
+position = Vector2(9, 10)
+texture = ExtResource("2_camu1")
+hframes = 6
+vframes = 7
+frame = 30
+
+[node name="HitBox" parent="Flip" instance=ExtResource("3_7ypew")]
+position = Vector2(0, 4)
+
+[node name="CollisionShape2D" parent="Flip/HitBox" index="0"]
+position = Vector2(11, -2)
+shape = SubResource("CapsuleShape2D_asifn")
+disabled = true
+debug_color = Color(0.994447, 0, 0.221937, 0.42)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_cobhd")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_7suor")
+}
+
+[node name="UtilityAiAgent" type="Node" parent="."]
+script = ExtResource("3_xr3ir")
+
+[node name="Pray" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_pray"
+
+[node name="UtilityAiAggregation2" type="Node" parent="UtilityAiAgent/Pray"]
+script = ExtResource("7_xw3t2")
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Pray/UtilityAiAggregation2"]
+script = ExtResource("7_xw3t2")
+
+[node name="satisfaction" type="Node" parent="UtilityAiAgent/Pray/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "satisfaction"
+max_value = 100.0
+curve = SubResource("Curve_exubw")
+
+[node name="pray_on_cooldown" type="Node" parent="UtilityAiAgent/Pray/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "pray_is_on_cooldown"
+curve = SubResource("Curve_c4n2b")
+
+[node name="is_resting" type="Node" parent="UtilityAiAgent/Pray/UtilityAiAggregation2" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_txtey")
+
+[node name="Idle" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "idle"
+
+[node name="UtilityAiAggregation2" type="Node" parent="UtilityAiAgent/Idle"]
+script = ExtResource("7_xw3t2")
+
+[node name="is_praying" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "did_you_pray_today"
+curve = SubResource("Curve_44m0d")
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2"]
+script = ExtResource("7_xw3t2")
+aggregation_type = 3
+
+[node name="is_child" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "is_child"
+curve = SubResource("Curve_noww2")
+
+[node name="is_resting" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_665gt")
+
+[node name="is_resting2" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_665gt")
+
+[node name="is_pregnant" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "is_pregnant"
+curve = SubResource("Curve_0o3ak")
+
+[node name="has_tool" type="Node" parent="UtilityAiAgent/Idle/UtilityAiAggregation2/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../../..")
+property_name = "has_tool"
+curve = SubResource("Curve_vwkvk")
+
+[node name="GatherWood" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "find_wood"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/GatherWood"]
+script = ExtResource("7_xw3t2")
+
+[node name="WoodCount" type="Node" parent="UtilityAiAgent/GatherWood/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "wood"
+max_value = 200.0
+curve = SubResource("Curve_ffppj")
+
+[node name="IsLaborer" type="Node" parent="UtilityAiAgent/GatherWood/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_laborer"
+curve = SubResource("Curve_ur87n")
+
+[node name="is_resting3" type="Node" parent="UtilityAiAgent/GatherWood/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_n5ghs")
+
+[node name="GatherStone" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "find_stone"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/GatherStone"]
+script = ExtResource("7_xw3t2")
+
+[node name="StoneCount" type="Node" parent="UtilityAiAgent/GatherStone/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "stone"
+max_value = 125.0
+curve = SubResource("Curve_35v5n")
+
+[node name="IsMiner" type="Node" parent="UtilityAiAgent/GatherStone/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_miner"
+curve = SubResource("Curve_ur87n")
+
+[node name="is_resting3" type="Node" parent="UtilityAiAgent/GatherStone/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_n5ghs")
+
+[node name="Farm" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "farm_food"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Farm"]
+script = ExtResource("7_xw3t2")
+
+[node name="NeedPlantHarvest" type="Node" parent="UtilityAiAgent/Farm/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+unique_name_in_owner = true
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "plantHarvestTiles"
+curve = SubResource("Curve_o8gwj")
+
+[node name="IsFarmer" type="Node" parent="UtilityAiAgent/Farm/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_farmer"
+curve = SubResource("Curve_82kbq")
+
+[node name="is_resting4" type="Node" parent="UtilityAiAgent/Farm/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_uhqm7")
+
+[node name="Sleeping" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_sleep"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Sleeping"]
+script = ExtResource("7_xw3t2")
+aggregation_type = 2
+
+[node name="is_sleep" type="Node" parent="UtilityAiAgent/Sleeping/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_sleeping"
+curve = SubResource("Curve_v0kg1")
+
+[node name="is_sleep2" type="Node" parent="UtilityAiAgent/Sleeping/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_sleeping"
+curve = SubResource("Curve_v0kg1")
+
+[node name="Build" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_build"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Build"]
+script = ExtResource("7_xw3t2")
+
+[node name="is_resting5" type="Node" parent="UtilityAiAgent/Build/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_uhqm7")
+
+[node name="IsLaborer" type="Node" parent="UtilityAiAgent/Build/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_laborer"
+curve = SubResource("Curve_ur87n")
+
+[node name="NeedBuild" type="Node" parent="UtilityAiAgent/Build/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "need_build"
+curve = SubResource("Curve_4vwlh")
+
+[node name="IsInBuilderSlot" type="Node" parent="UtilityAiAgent/Build/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_in_slot"
+curve = SubResource("Curve_gwey4")
+
+[node name="UtilityAiConsiderationFromNode" type="Node" parent="UtilityAiAgent/Build/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "has_resources"
+curve = SubResource("Curve_7dr4f")
+
+[node name="MakeTools" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_forge"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/MakeTools"]
+script = ExtResource("7_xw3t2")
+
+[node name="IsSmith2" type="Node" parent="UtilityAiAgent/MakeTools/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_smith"
+curve = SubResource("Curve_g5d3w")
+
+[node name="hasMetal" type="Node" parent="UtilityAiAgent/MakeTools/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "has_metal"
+curve = SubResource("Curve_o4w77")
+
+[node name="hasTools" type="Node" parent="UtilityAiAgent/MakeTools/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+unique_name_in_owner = true
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "tools"
+curve = SubResource("Curve_uitve")
+
+[node name="is_resting5" type="Node" parent="UtilityAiAgent/MakeTools/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_n5ghs")
+
+[node name="Smelt" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_smelt"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Smelt"]
+script = ExtResource("7_xw3t2")
+
+[node name="IsSmith" type="Node" parent="UtilityAiAgent/Smelt/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_smith"
+curve = SubResource("Curve_g5d3w")
+
+[node name="hasOre" type="Node" parent="UtilityAiAgent/Smelt/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "has_ore"
+curve = SubResource("Curve_uhi2i")
+
+[node name="hasMetal" type="Node" parent="UtilityAiAgent/Smelt/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "has_metal"
+curve = SubResource("Curve_nj21r")
+
+[node name="is_resting4" type="Node" parent="UtilityAiAgent/Smelt/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_resting"
+curve = SubResource("Curve_n5ghs")
+
+[node name="Combat" type="Node" parent="UtilityAiAgent"]
+script = ExtResource("4_h3oop")
+_action_id = "go_fight"
+
+[node name="UtilityAiAggregation" type="Node" parent="UtilityAiAgent/Combat"]
+script = ExtResource("7_xw3t2")
+
+[node name="is_in_combat" type="Node" parent="UtilityAiAgent/Combat/UtilityAiAggregation" node_paths=PackedStringArray("node")]
+script = ExtResource("5_i7ywe")
+node = NodePath("../../../..")
+property_name = "is_in_combat"
+curve = SubResource("Curve_s2not")
+
+[node name="utility_debug" parent="." node_paths=PackedStringArray("utility_agent") instance=ExtResource("8_gu8ci")]
+visible = false
+scale = Vector2(0.5, 0.5)
+utility_agent = NodePath("../UtilityAiAgent")
+
+[node name="EatTimer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="PrayCooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 8.0
+one_shot = true
+
+[node name="WanderTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+path_postprocessing = 1
+simplify_path = true
+radius = 6.0
+max_neighbors = 15
+time_horizon_agents = 0.5
+avoidance_priority = 0.4
+
+[node name="NoHouse" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-12, -17)
+texture = ExtResource("9_eul7w")
+hframes = 3
+
+[node name="NoFood" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -17)
+texture = ExtResource("9_eul7w")
+hframes = 3
+frame = 1
+
+[node name="NoFuel" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(13, -17)
+texture = ExtResource("9_eul7w")
+hframes = 3
+frame = 2
+
+[node name="ColdTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 10.0
+one_shot = true
+
+[node name="ChopTree" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_mgisr")
+volume_db = 1.0
+pitch_scale = 1.75
+max_distance = 350.0
+
+[node name="MineStone" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("11_e6nyp")
+volume_db = 0.5
+pitch_scale = 1.5
+max_distance = 350.0
+
+[connection signal="day_passed" from="." to="." method="_on_day_passed"]
+[connection signal="top_score_action_changed" from="UtilityAiAgent" to="." method="_on_utility_ai_agent_top_score_action_changed"]
+[connection signal="timeout" from="EatTimer" to="." method="_on_eat_timer_timeout"]
+[connection signal="timeout" from="PrayCooldown" to="." method="_on_pray_cooldown_timeout"]
+[connection signal="timeout" from="WanderTimer" to="." method="_on_wander_timer_timeout"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="timeout" from="ColdTimer" to="." method="_on_cold_timer_timeout"]
+
+[editable path="Flip/HitBox"]

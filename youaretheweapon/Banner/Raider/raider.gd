@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var speed : float = 40
 
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
+@onready var anim: AnimationPlayer = $AnimationPlayer
 
 var is_in_position : bool
 
@@ -46,8 +47,10 @@ func move_to(direction, delta):
 	else:
 		_on_navigation_agent_2d_velocity_computed(new_velocity)
 		
-	#if velocity != Vector2.ZERO:
-		#anim.play("walk")
+	if velocity != Vector2.ZERO:
+		anim.play("walk")
+	else:
+		anim.play("idle")
 	move_and_slide()
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:

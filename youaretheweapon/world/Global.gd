@@ -1,14 +1,14 @@
 extends Node
 
-@export var wood := 30
-@export var food := 50
+@export var wood := 10
+@export var food := 25
 @export var seeds := 15
-@export var faith := 20
-@export var stone := 25
-@export var ore := 40
+@export var faith := 30
+@export var stone := 10
+@export var ore := 0
 @export var metal := 0
-@export var tools := 5
-@export var total_day_time := 12
+@export var tools := 10
+@export var total_day_time := 120
 @export var day := 1
 @export var hour := 0
 @export var action_period = action.WORK
@@ -34,7 +34,7 @@ func _process(delta: float) -> void:
 	if Global.ore <= 0:
 		Global.ore = 0
 	if Global.seeds <= 0:
-		Global.seed = 0
+		Global.seeds = 0
 	if Global.faith <= 0:
 		Global.faith = 0
 	
