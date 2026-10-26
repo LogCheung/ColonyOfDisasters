@@ -5,8 +5,39 @@
  This project is completed.
 
  # Description
- Manage your colony's resources through weather events that can encourage buildings, <br/> 
- fend off raiders, or unearth resources. Ensure that your citizens continue to have <br/>
- faith in your power and guide your colony through challenging times such as when <br/>
- raiders appear or the frigid cold of winter threatens their wellbeing. <br/>
+ Manage your colony's resources through weather events that can encourage buildings, 
+ fend off raiders, or unearth resources. Ensure that your citizens continue to have
+ faith in your power and guide your colony through challenging times such as when 
+ raiders appear or the frigid cold of winter threatens their wellbeing. <br/> <br/>
+
+ This project was made 8 months into my game development journey, I consider this project a
+ turning point, no longer relied on tutorials, was able to problem solve on my own and spent nearly a 100 hours 
+ ensuring I got to submit it. Fun two weeks.
+
+ # Feature List
+ - NPC Behaviors/States
+   - Building (Pathfinding to site, giving up current task)
+   - Farming (Pathfinding to farm tiles, planting/harvesting based on growth stage)
+   - Forging (Pathfinding to smelter, then back to forge to produce tools)
+   - Praying (Pathfinding to shrine, giving up current task, praying when work day ends)
+   - Sleeping (Return to home until work day starts)
+   - Idle (Wandering if no job, mostly for children)
+ - Weather Events
+   - Rain (Flood risk, farm tiles, improved growth, slowing raiders)
+   - Wind (Seeds for trees and crops, housing encouragement, freezing risk, damage to raiders)
+   - Earthquake (Iron ore spawning, forge encouragement, colony destruction risk, damage to raiders)
+ - Day/Night Cycle
+   - Work/Pray/Rest Schedule
+ - Population Growth
+   - Option to give birth in house, makes one worker pregnant)
+   - Child growing into adults
+ - Buildings
+   - Houses (takes in citizens, consumes fuel)
+   - Forge (takes worker, consumes iron and wood)
+ - Challenges
+   - Winter (increased consumptions, freeze risk)
+   - Raiders/Combat
+     - Citizens form up, approach enemy,
+     - Armies clash, strength based on numbers, rolls made to decide victor
+ - 
  
