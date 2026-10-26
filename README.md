@@ -1,4 +1,4 @@
-# YouAreTheWeapon
+# Colony of Disasters
  Pirate Software 16 Game Jam Project Jan 2025 <br/>
  A colony simulation game where you play as a god that influences your colony
  through weather events. <br/> <br/>
@@ -56,4 +56,9 @@
  - SFX
 
  # Design Reflection
- - Goal : 
+ - Goal: To create an interesting simulation game through weather rather than directly controlling colony
+ - Thoughts: Making a colony sim by only controlling weather is an interesting concept, though we gave the player too little agency, a small amount of decisions were to be made. Instead it was more watching a colony sim than playing. I am incredibly proud of this project, for nothing more than it gave me faith I could make what I what set out to do. From a design perspective, we limited player agency too much, and a much more engaging game would've resembled a more traditional colony sim with interesting weather mechanics to optimize play or accidentally ruin your colony with disasters (maybe with a chance that a weather event becomes a catastrophe and is much stronger than you intended). <br/>
+
+ # Contributors
+ - Programming : Logan Cheung (SpiralKing)
+ - Art : Micah Rodriguez (Palatabled)
