@@ -10,10 +10,6 @@
  faith in your power and guide your colony through challenging times such as when 
  raiders appear or the frigid cold of winter threatens their wellbeing. <br/> <br/>
 
- This project was made 8 months into my game development journey, I consider this project a
- turning point, no longer relied on tutorials, was able to problem solve on my own and spent nearly a 100 hours 
- ensuring I got to submit it. Fun two weeks.
-
  # Feature List
  - NPC Behaviors/States
    - Building (Pathfinding to site, giving up current task)
@@ -58,7 +54,13 @@
  # Design Reflection
  - Goal: To create an interesting simulation game through weather rather than directly controlling colony
  - Thoughts: Making a colony sim by only controlling weather is an interesting concept, though we gave the player too little agency, a small amount of decisions were to be made. Instead it was more watching a colony sim than playing. I am incredibly proud of this project, for nothing more than it gave me faith I could make what I what set out to do. From a design perspective, we limited player agency too much, and a much more engaging game would've resembled a more traditional colony sim with interesting weather mechanics to optimize play or accidentally ruin your colony with disasters (maybe with a chance that a weather event becomes a catastrophe and is much stronger than you intended). <br/>
+ - Personal Reflection :  This project was made 8 months into my game development journey, I consider this project a
+ turning point, no longer relied on tutorials, was able to problem solve on my own and spent nearly a 100 hours 
+ ensuring I got to submit it. Fun two weeks.
 
  # Contributors
  - Programming : Logan Cheung (SpiralKing)
  - Art : Micah Rodriguez (Palatabled)
+
+<img width="511" height="286" alt="image" src="https://github.com/user-attachments/assets/1b849625-2a29-4bb2-bca3-b3f70826ca54" />
+<img width="527" height="341" alt="Screenshot 2026-10-27 003831" src="https://github.com/user-attachments/assets/4d5c25d9-4346-4f3e-b29f-587ec18e0fb1" />
