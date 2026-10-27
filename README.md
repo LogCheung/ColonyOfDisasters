@@ -2,6 +2,8 @@
  Pirate Software 16 Game Jam Project Jan 2025 <br/>
  A colony simulation game where you play as a god that influences your colony
  through weather events. <br/> <br/>
+ <img width="461" height="286" alt="image" src="https://github.com/user-attachments/assets/1b849625-2a29-4bb2-bca3-b3f70826ca54" />
+<img width="477" height="281" alt="Screenshot 2026-10-27 003831" src="https://github.com/user-attachments/assets/4d5c25d9-4346-4f3e-b29f-587ec18e0fb1" /> <br/>
  This project is completed. <br/>
  Link to GDD: https://docs.google.com/document/d/1FE9_PFNj-imvMxX42kc_Y4333oPJ04CWbmehIYfxWiU/edit?usp=sharing <br/>
  Link to game: https://spiralking.itch.io/colonyofdisasters
@@ -63,6 +65,3 @@
  # Contributors
  - Programming : Logan Cheung (SpiralKing)
  - Art : Micah Rodriguez (Palatabled)
-
-<img width="511" height="286" alt="image" src="https://github.com/user-attachments/assets/1b849625-2a29-4bb2-bca3-b3f70826ca54" />
-<img width="527" height="341" alt="Screenshot 2026-10-27 003831" src="https://github.com/user-attachments/assets/4d5c25d9-4346-4f3e-b29f-587ec18e0fb1" />
