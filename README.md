@@ -2,7 +2,9 @@
  Pirate Software 16 Game Jam Project Jan 2025 <br/>
  A colony simulation game where you play as a god that influences your colony
  through weather events. <br/> <br/>
- This project is completed. Link to GDD: https://docs.google.com/document/d/1FE9_PFNj-imvMxX42kc_Y4333oPJ04CWbmehIYfxWiU/edit?usp=sharing
+ This project is completed. <br/>
+ Link to GDD: https://docs.google.com/document/d/1FE9_PFNj-imvMxX42kc_Y4333oPJ04CWbmehIYfxWiU/edit?usp=sharing <br/>
+ Link to game: https://spiralking.itch.io/colonyofdisasters
 
  # Description
  Manage your colony's resources through weather events that can encourage buildings, 
